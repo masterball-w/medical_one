@@ -13,9 +13,14 @@
   const state = {
     q: "",
     layer: "all",
+    evidence: "all",
     activeWx: "wood",
+    wxMode: "physio",
     activeWq: 0,
   };
+
+  const MECH_LABEL = { high: "机制明确", medium: "机制中等", analogical: "结构类比" };
+  let hashReady = false;
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -140,6 +145,42 @@
     });
   }
 
+  /* ---------------- 证据等级筛选 ---------------- */
+  function renderEvFilters() {
+    const counts = { all: DATA.entries.length, A: 0, B: 0, C: 0 };
+    DATA.entries.forEach((e) => (counts[e.evidence] = (counts[e.evidence] || 0) + 1));
+
+    const chips = [
+      { id: "all", name: "全部证据" },
+      { id: "A", name: "A 强证据" },
+      { id: "B", name: "B 中等证据" },
+      { id: "C", name: "C 理论类比" },
+    ];
+
+    $("#evFilters").innerHTML = chips
+      .map(
+        (c) =>
+          `<button class="chip ev-chip${c.id === "all" ? " on" : ""}" data-ev="${c.id}">${esc(
+            c.name
+          )}<span class="n">${counts[c.id] || 0}</span></button>`
+      )
+      .join("");
+
+    $("#evFilters").addEventListener("click", (ev) => {
+      const chip = ev.target.closest(".chip");
+      if (!chip) return;
+      setEvidenceFilter(chip.dataset.ev);
+    });
+  }
+
+  function setEvidenceFilter(id) {
+    state.evidence = id;
+    $$("#evFilters .chip").forEach((c) =>
+      c.classList.toggle("on", c.dataset.ev === id)
+    );
+    renderCards();
+  }
+
   function setLayerFilter(id) {
     state.layer = id;
     $$("#filters .chip").forEach((c) =>
@@ -148,12 +189,14 @@
     $$("#nav a.sub").forEach((a) =>
       a.classList.toggle("active", a.dataset.layer === id)
     );
+    syncHash(id && id !== "all" ? "layer/" + id : "");
     renderCards();
   }
 
   /* ---------------- 卡片 ---------------- */
   function matches(e) {
     if (state.layer !== "all" && e.layer !== state.layer) return false;
+    if (state.evidence !== "all" && e.evidence !== state.evidence) return false;
     if (!state.q) return true;
     const q = state.q.toLowerCase();
     const hay = [
@@ -172,13 +215,39 @@
     return hay.includes(q);
   }
 
+  // 反向检索：命中现代医学指标时，返回该映射行
+  function findMappingHit(e) {
+    if (!state.q) return null;
+    const q = state.q.toLowerCase();
+    for (const m of e.mappings) {
+      const line = `${m.tcm} → ${m.modern}`;
+      if ((line + " " + m.note).toLowerCase().includes(q)) return line;
+    }
+    for (const m of e.mappings) {
+      if (m.modern.toLowerCase().includes(q)) return m.modern;
+    }
+    return null;
+  }
+
+  function highlight(text, q) {
+    const safe = esc(text);
+    if (!q) return safe;
+    const re = new RegExp(
+      "(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")",
+      "ig"
+    );
+    return safe.replace(re, "<mark>$1</mark>");
+  }
+
   function renderCards() {
     const list = DATA.entries.filter(matches);
     const grid = $("#cardGrid");
+    const q = state.q;
 
     grid.innerHTML = list
       .map((e) => {
         const L = LAYER_MAP[e.layer];
+        const hit = findMappingHit(e);
         return `
         <button class="card" data-id="${e.id}" style="--c:${L.color}">
           <span class="card-top">
@@ -188,6 +257,11 @@
           <span class="card-name">${esc(e.name)}</span>
           <span class="card-py">${esc(e.pinyin)}</span>
           <span class="card-sum">${esc(e.summary)}</span>
+          ${
+            hit
+              ? `<span class="card-hit"><b>命中</b>${highlight(hit, q)}</span>`
+              : ""
+          }
           <span class="card-foot">
             <span>${e.mappings.length} 组映射</span>
             <span class="arrow">→</span>
@@ -197,7 +271,8 @@
       .join("");
 
     $("#empty").hidden = list.length > 0;
-    $("#clearBtn").hidden = state.q === "" && state.layer === "all";
+    $("#clearBtn").hidden =
+      state.q === "" && state.layer === "all" && state.evidence === "all";
     $("#resultCount").textContent = `显示 ${list.length} / ${DATA.entries.length} 条目`;
 
     $$(".card", grid).forEach((c) =>
@@ -207,6 +282,41 @@
 
   /* ---------------- 抽屉 ---------------- */
   let lastFocus = null;
+
+  // 未配置 relatedIds 时，按关键词自动匹配跨层条目
+  function autoRelated(e) {
+    const text = [
+      e.name,
+      e.summary,
+      e.tcm,
+      e.modern,
+      ...(e.alias || []),
+      ...e.mappings.map((m) => m.tcm + m.modern),
+    ].join(" ");
+    return DATA.entries
+      .filter(
+        (x) =>
+          x.id !== e.id &&
+          x.layer !== e.layer &&
+          x.name.length >= 2 &&
+          text.includes(x.name)
+      )
+      .slice(0, 6)
+      .map((x) => x.id);
+  }
+
+  function resolveRelated(e) {
+    const all = (e.relatedIds || [])
+      .map((id) => DATA.entries.find((x) => x.id === id))
+      .filter(Boolean);
+    // 优先展示跨层条目；全部同层时改用关键词自动匹配
+    const cross = all.filter((x) => x.layer !== e.layer);
+    if (cross.length) return cross;
+    const auto = autoRelated(e)
+      .map((id) => DATA.entries.find((x) => x.id === id))
+      .filter(Boolean);
+    return auto.length ? auto : all;
+  }
 
   function openDrawer(id) {
     const e = DATA.entries.find((x) => x.id === id);
@@ -244,6 +354,24 @@
       )
       .join("");
 
+    const crossChips = resolveRelated(e)
+      .map((x) => {
+        const xl = LAYER_MAP[x.layer];
+        return `<button class="rel-chip cross" data-id="${x.id}" style="--c:${xl.color}">
+          <span class="lv">${x.layer}</span>${esc(x.name)}
+        </button>`;
+      })
+      .join("");
+
+    const sameChips = DATA.entries
+      .filter((x) => x.layer === e.layer && x.id !== e.id)
+      .slice(0, 8)
+      .map(
+        (x) =>
+          `<button class="rel-chip" data-id="${x.id}">${esc(x.name)}</button>`
+      )
+      .join("");
+
     $("#drawerBody").innerHTML = `
       <h2 class="dr-title">${esc(e.name)}</h2>
       <p class="dr-pinyin">${esc(e.pinyin)}</p>
@@ -270,7 +398,9 @@
         <div class="ev-box">
           <div class="ev-grade ${e.evidence.toLowerCase()}">${e.evidence}</div>
           <div>
-            <span class="ev-label">GRADE ${e.evidence} · ${esc(EV_LABEL[e.evidence])}</span>
+            <span class="ev-label">GRADE ${e.evidence} · ${esc(EV_LABEL[e.evidence])}　|　MECHANISM ${esc(
+              e.mechanismLevel || "—"
+            )} · ${esc(MECH_LABEL[e.mechanismLevel] || "—")}</span>
             <p>${esc(e.evidenceText)}</p>
           </div>
         </div>
@@ -282,15 +412,13 @@
       </div>
 
       <div class="dr-block">
+        <h4><b>跨层关联</b> CROSS-LAYER LINKS</h4>
+        <div class="dr-related">${crossChips || '<span class="dr-none">暂无跨层关联</span>'}</div>
+      </div>
+
+      <div class="dr-block">
         <h4><b>同层条目</b> SAME LAYER</h4>
-        <div class="dr-related">${DATA.entries
-          .filter((x) => x.layer === e.layer && x.id !== e.id)
-          .slice(0, 8)
-          .map(
-            (x) =>
-              `<button class="rel-chip" data-id="${x.id}">${esc(x.name)}</button>`
-          )
-          .join("")}</div>
+        <div class="dr-related">${sameChips || '<span class="dr-none">暂无同层条目</span>'}</div>
       </div>
     `;
 
@@ -301,12 +429,15 @@
       })
     );
 
-    lastFocus = document.activeElement;
+    if (!lastFocus || !document.body.contains(lastFocus) || $("#drawer").getAttribute("aria-hidden") === "true") {
+      lastFocus = document.activeElement;
+    }
     $("#drawer").classList.add("on");
     $("#drawer").setAttribute("aria-hidden", "false");
     $("#scrim").classList.add("on");
     document.body.style.overflow = "hidden";
     $("#drawerBody").scrollTop = 0;
+    syncHash("entry/" + e.id);
   }
 
   function closeDrawer() {
@@ -315,6 +446,7 @@
     $("#scrim").classList.remove("on");
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus();
+    if (location.hash.indexOf("#entry/") === 0) syncHash("");
   }
 
   /* ---------------- 五行生克 ---------------- */
@@ -328,6 +460,63 @@
   const WX_ORDER = ["wood", "fire", "earth", "metal", "water"];
   // 相克：木克土、土克水、水克火、火克金、金克木
   const WX_KE = { wood: "earth", earth: "water", water: "fire", fire: "metal", metal: "wood" };
+  // 相侮（反克）：被克者反侮克者。X 侮 Y 当且仅当 Y 克 X
+  const WX_WU = {};
+  WX_ORDER.forEach((y) => { WX_WU[WX_KE[y]] = y; });
+
+  // 病理传变：相乘（顺克太过）与相侮（反克）
+  const WX_PATHO = {
+    wood: {
+      cheng: {
+        label: "木旺乘土 · 肝气犯胃 / 肝郁脾虚",
+        modern: "慢性应激经 HPA 轴与自主神经改变胃肠动力与内脏敏感性（脑—肠轴），对应功能性消化不良、肠易激综合征、应激性胃黏膜损伤。",
+      },
+      wu: {
+        label: "木火刑金 · 肝火犯肺",
+        modern: "门脉高压相关的肝肺综合征与门脉性肺动脉高压：肝病致肺内血管扩张、通气/血流比失调与低氧血症。",
+      },
+    },
+    fire: {
+      cheng: {
+        label: "火旺乘金 · 心火灼肺",
+        modern: "左心功能不全致肺静脉压升高、肺淤血与肺水肿，出现咳嗽、气促、端坐呼吸。",
+      },
+      wu: {
+        label: "火盛侮水 · 心火耗伤肾阴",
+        modern: "容量负荷与 RAAS/交感持续激活改变肾灌注与钠水排泄，形成心—肾轴恶性循环（心肾综合征）。",
+      },
+    },
+    earth: {
+      cheng: {
+        label: "土旺乘水 · 脾湿泛滥",
+        modern: "低蛋白血症与水钠潴留致水肿、腹水；有效循环血量下降进一步影响肾灌注与滤过。",
+      },
+      wu: {
+        label: "土壅侮木 · 湿浊困阻肝疏泄",
+        modern: "代谢综合征与非酒精性脂肪性肝病：胰岛素抵抗与脂毒性损伤肝细胞，肝内脂质沉积反过来加重代谢紊乱。",
+      },
+    },
+    metal: {
+      cheng: {
+        label: "金旺乘木 · 肺病及肝",
+        modern: "右心衰竭致肝淤血（心源性肝硬化）；慢性缺氧性肝损伤与肝酶异常。",
+      },
+      wu: {
+        label: "金盛侮火 · 肺病及心",
+        modern: "慢性肺病致肺动脉高压与肺源性心脏病、右心功能不全，最终全心衰竭。",
+      },
+    },
+    water: {
+      cheng: {
+        label: "水旺乘火 · 肾水凌心",
+        modern: "容量负荷与尿毒症毒素致心力衰竭、尿毒症性心包炎；心肾综合征的经典通路。",
+      },
+      wu: {
+        label: "水盛侮土 · 肾病及脾",
+        modern: "尿毒症致胃肠黏膜损伤、食欲下降与蛋白能量消耗（PEW），形成营养不良—炎症恶性循环。",
+      },
+    },
+  };
 
   function renderWuxing() {
     const svg = $("#wuxingSvg");
@@ -337,6 +526,8 @@
       const ang = (-90 + i * 72) * (Math.PI / 180);
       nodes[key] = { x: cx + R * Math.cos(ang), y: cy + R * Math.sin(ang) };
     });
+
+    const patho = state.wxMode === "patho";
 
     let defs = `
       <defs>
@@ -351,8 +542,8 @@
     // 中心装饰
     let center = `
       <circle cx="${cx}" cy="${cy}" r="64" fill="none" stroke="rgba(20,24,27,.1)" stroke-dasharray="2 5"/>
-      <text class="w-center-title" x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="19" fill="#5d6870" letter-spacing="4">生克</text>
-      <text class="w-center-sub" x="${cx}" y="${cy + 18}" text-anchor="middle" font-size="7.5" fill="#8a9299" letter-spacing="2">SHENG · KE</text>
+      <text class="w-center-title" x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="19" fill="#5d6870" letter-spacing="4">${patho ? "乘侮" : "生克"}</text>
+      <text class="w-center-sub" x="${cx}" y="${cy + 18}" text-anchor="middle" font-size="7.5" fill="#8a9299" letter-spacing="2">${patho ? "CHENG · WU" : "SHENG · KE"}</text>
     `;
 
     // 相生连线（外圈，顺时针）
@@ -399,35 +590,76 @@
   function setWx(key) {
     state.activeWx = key;
     const svg = $("#wuxingSvg");
+    const patho = state.wxMode === "patho";
     const keTo = WX_KE[key];
+    const wuTo = WX_WU[key];
     const idx = WX_ORDER.indexOf(key);
     const shengTo = WX_ORDER[(idx + 1) % 5];
+
+    const focus = patho ? [key, keTo, wuTo] : [key, shengTo, keTo];
 
     $$(".wx-node", svg).forEach((g) => {
       const k = g.dataset.key;
       g.classList.toggle("sel", k === key);
-      g.classList.toggle("dim", k !== key && k !== shengTo && k !== keTo);
+      g.classList.toggle("dim", !focus.includes(k));
       const circle = $(".node-bg", g);
       circle.setAttribute("fill", k === key ? WX_COLOR[k] : "#fbf8f0");
+      circle.setAttribute("stroke", patho && k === keTo ? "#ad3427" : WX_COLOR[k]);
       const t = $("text", g);
       t.setAttribute("fill", k === key ? "#fbf8f0" : WX_COLOR[k]);
     });
 
     $$(".wx-link", svg).forEach((ln) => {
-      const on = ln.dataset.from === key;
+      const isCheng = patho && ln.dataset.from === key && ln.dataset.to === keTo;
+      const isWu = patho && ln.dataset.from === wuTo && ln.dataset.to === key;
+      const isPhysio = !patho && ln.dataset.from === key;
+      const on = isCheng || isWu || isPhysio;
+
       ln.classList.toggle("hi", on);
       ln.classList.toggle("dim", !on);
-      if (on) {
+
+      if (isCheng) {
+        ln.setAttribute("stroke", "#ad3427");
+        ln.setAttribute("stroke-width", "2.8");
+      } else if (isWu) {
+        ln.setAttribute("stroke", "#b8781f");
+        ln.setAttribute("stroke-width", "2.6");
+      } else if (isPhysio) {
         ln.setAttribute("stroke", ln.classList.contains("ke") ? "#c08a3e" : "#7d868d");
+        ln.setAttribute("stroke-width", ln.classList.contains("ke") ? "2.6" : "1.4");
       } else {
-        ln.setAttribute(
-          "stroke",
-          ln.classList.contains("ke") ? "#d8bd92" : "#c3c8cc"
-        );
+        ln.setAttribute("stroke", ln.classList.contains("ke") ? "#d8bd92" : "#c3c8cc");
+        ln.setAttribute("stroke-width", ln.classList.contains("ke") ? "1.2" : "1.4");
       }
     });
 
     const el = DATA.wuxing.elements.find((x) => x.key === key);
+
+    if (patho) {
+      const p = WX_PATHO[key];
+      const chengEl = DATA.wuxing.elements.find((x) => x.key === keTo);
+      const wuEl = DATA.wuxing.elements.find((x) => x.key === wuTo);
+      $("#wxDetail").innerHTML = `
+        <span class="glyph">${el.name}</span>
+        <p class="wx-kicker">PATHOLOGICAL TRANSMISSION · ${key.toUpperCase()}</p>
+        <h3>${el.name} · ${el.organ}　病理传变</h3>
+        <p class="wx-sub">相乘 → ${chengEl.name}（${chengEl.organ}）　相侮 → ${wuEl.name}（${wuEl.organ}）</p>
+        <div class="wx-patho">
+          <div class="wx-patho-item cheng">
+            <span class="tag">相乘 · 顺克太过</span>
+            <b>${esc(p.cheng.label)}</b>
+            <p>${esc(p.cheng.modern)}</p>
+          </div>
+          <div class="wx-patho-item wu">
+            <span class="tag">相侮 · 反克</span>
+            <b>${esc(p.wu.label)}</b>
+            <p>${esc(p.wu.modern)}</p>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     const toEl = DATA.wuxing.elements.find((x) => x.key === shengTo);
     const keEl = DATA.wuxing.elements.find((x) => x.key === keTo);
 
@@ -557,6 +789,35 @@
     $("#refModern").innerHTML = modern.sort(sortFn).map((t) => `<li>${esc(t)}</li>`).join("");
   }
 
+  /* ---------------- URL Hash 深度链接 ---------------- */
+  function syncHash(h) {
+    if (!hashReady) return;
+    const target = h ? "#" + h : location.pathname + location.search;
+    try {
+      history.replaceState(null, "", target);
+    } catch (err) {
+      /* file:// 等环境可能禁止修改历史，忽略即可 */
+    }
+  }
+
+  function route(hash) {
+    const h = (hash || "").replace(/^#/, "");
+    const mEntry = h.match(/^entry\/(.+)$/);
+    const mLayer = h.match(/^layer\/(.+)$/);
+
+    if (mEntry) {
+      openDrawer(decodeURIComponent(mEntry[1]));
+      return;
+    }
+    if (mLayer) {
+      const id = decodeURIComponent(mLayer[1]);
+      if (DATA.layers.some((l) => l.id === id)) {
+        setLayerFilter(id);
+        $("#atlas").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }
+
   /* ---------------- 交互绑定 ---------------- */
   function bind() {
     const search = $("#search");
@@ -572,12 +833,26 @@
     $("#clearBtn").addEventListener("click", () => {
       state.q = "";
       state.layer = "all";
+      state.evidence = "all";
       $("#search").value = "";
       $$("#filters .chip").forEach((c) =>
         c.classList.toggle("on", c.dataset.layer === "all")
       );
+      $$("#evFilters .chip").forEach((c) =>
+        c.classList.toggle("on", c.dataset.ev === "all")
+      );
       $$("#nav a.sub").forEach((a) => a.classList.remove("active"));
+      syncHash("");
       renderCards();
+    });
+
+    // 五行模式切换
+    $("#wxMode").addEventListener("click", (ev) => {
+      const btn = ev.target.closest(".wx-mode-btn");
+      if (!btn) return;
+      state.wxMode = btn.dataset.mode;
+      $$(".wx-mode-btn").forEach((b) => b.classList.toggle("active", b === btn));
+      renderWuxing();
     });
 
     $("#drawerClose").addEventListener("click", closeDrawer);
@@ -607,6 +882,8 @@
       }
       $("#sidebar").classList.remove("on");
     });
+
+    window.addEventListener("hashchange", () => route(location.hash));
 
     // 滚动高亮
     const sections = ["top", "layers", "atlas", "wuxing", "bianzheng", "refs"];
@@ -638,11 +915,24 @@
     renderNav();
     renderLayers();
     renderFilters();
+    renderEvFilters();
     renderCards();
     renderWuxing();
     renderTabs();
     renderRefs();
     bind();
+
+    // 解析初始 hash，支持直接分享词条或层级
+    hashReady = true;
+    if (/^#(entry|layer)\//.test(location.hash)) {
+      route(location.hash);
+      if (/^#layer\//.test(location.hash)) {
+        setTimeout(
+          () => $("#atlas").scrollIntoView({ behavior: "auto", block: "start" }),
+          60
+        );
+      }
+    }
   }
 
   if (document.readyState === "loading") {

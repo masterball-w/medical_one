@@ -113,6 +113,7 @@
         <p class="section-note">点击任一条目展开完整对应关系、映射机制与文献依据。</p>
       </div>
       <div class="filters" id="filters"></div>
+      <div class="filters ev-filters" id="evFilters"></div>
       <div class="result-bar">
         <span id="resultCount"></span>
         <button class="clear-btn" id="clearBtn" hidden>清除筛选</button>
@@ -131,6 +132,10 @@
         <p class="section-note">
           相生为促进性耦合，相克为负反馈约束。将鼠标悬停于某一脏，可高亮其生克关系。
         </p>
+      </div>
+      <div class="wx-mode" id="wxMode" role="group" aria-label="五行模式切换">
+        <button class="wx-mode-btn active" data-mode="physio">生理制化 · 相生相克</button>
+        <button class="wx-mode-btn" data-mode="patho">病理传变 · 相乘相侮</button>
       </div>
       <div class="wuxing-wrap">
         <div class="wuxing-canvas">

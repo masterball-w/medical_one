@@ -10,10 +10,10 @@ window.TCM_DATA = {
   meta: {
     title: "岐黄映射",
     subtitle: "中医概念 · 现代医学对应",
-    version: "1.0",
+    version: "1.1",
     updated: "2026-11",
     disclaimer:
-      "本站为学术整理与教学演示，用于概念对照与文献索引，不构成任何诊疗建议。证据等级 C 表示结构类比或理论推演，不代表因果结论。临床应用请遵循执业医师指导。",
+      "本站为学术整理与教学演示，用于概念对照与文献索引，不构成任何诊疗建议。证据等级（evidence）评估的是「中医概念与现代医学表型/机制之间映射关系的实证强度」，而非某一西医指标本身的研究成熟度：A 级表示该证候已有系统性的证候诊断标准、定位研究或高质量临床/机制证据支持；B 级表示机制与表型方向一致，但证候与具体疾病并非一一对应；C 级表示结构类比或理论推演，不代表因果结论。临床应用请遵循执业医师指导。",
   },
 
   /* ---------------- 分层定义 ---------------- */
@@ -113,6 +113,8 @@ window.TCM_DATA = {
       name: "阴阳",
       pinyin: "Yīn Yáng",
       alias: ["阴阳学说", "阴阳消长"],
+      relatedIds: ["wuxing","qi","bagang-yinyang","shaoyin","heart","kidney"],
+      mechanismLevel: "medium",
       summary: "对立统一的关系模型，中医全部理论的元语言。",
       tcm:
         "阴阳指事物相互对立又相互依存的两种属性。《素问·阴阳应象大论》：『阴阳者，天地之道也，万物之纲纪，变化之父母，生杀之本始，神明之府也。』其内容含对立制约、互根互用、消长平衡、相互转化四层。",
@@ -123,14 +125,16 @@ window.TCM_DATA = {
         { tcm: "阴阳互根互用", modern: "负反馈环路中的相互依赖（如胰岛素/胰高血糖素）", note: "一方缺失将导致系统失去可调性" },
         { tcm: "阴阳消长平衡", modern: "稳态调定点（set point）与生理节律波动", note: "皮质醇晨高夜低的昼夜节律即典型「消长」" },
         { tcm: "阴阳相互转化", modern: "阈值效应与相变：SIRS 向 CARS 的代偿性反转", note: "重度炎症后出现免疫抑制，临床常见" },
+        { tcm: "阴阳消长与昼夜节律", modern: "CLOCK/BMAL1 核心生物钟基因对免疫细胞迁移、细胞因子释放与体温调定点的昼夜门控（circadian gating）", note: "Takahashi 2017；「昼精夜寐」的分子基础" },
       ],
       evidence: "B",
-      evidenceText: "作为关系模型与稳态理论高度同构；但「阴阳」不指向特定分子，只能做结构性映射。",
+      evidenceText: "作为关系模型与稳态理论高度同构；昼夜节律为「阴阳消长」提供了可测的分子时钟，但「阴阳」不指向特定分子，只能做结构性映射。",
       refs: [
         { type: "classic", text: "《黄帝内经·素问·阴阳应象大论》" },
         { type: "classic", text: "《黄帝内经·素问·生气通天论》" },
         { type: "modern", text: "Cannon WB. The Wisdom of the Body. New York: Norton, 1932.（内环境稳态概念的提出）" },
         { type: "modern", text: "Kitano H. Systems biology: a brief overview. Science, 2002, 295(5560): 1662–1664." },
+        { type: "modern", text: "Takahashi JS. Transcriptional architecture of the mammalian circadian clock. Nature Reviews Genetics, 2017, 18(3): 164–179." },
       ],
     },
     {
@@ -140,6 +144,8 @@ window.TCM_DATA = {
       name: "五行",
       pinyin: "Wǔ Xíng",
       alias: ["五行学说", "木火土金水"],
+      relatedIds: ["wuxing-shengke","five-zang","bagang"],
+      mechanismLevel: "analogical",
       summary: "五类属性构成的多节点生克网络模型。",
       tcm:
         "五行以木、火、土、金、水概括五类属性及其运动变化。《素问·五运行大论》确立五行与方位、季节、脏象的配属。五行不是五种物质，而是五类「功能态」及其相互关系。",
@@ -167,6 +173,8 @@ window.TCM_DATA = {
       name: "五行生克",
       pinyin: "Wǔ Xíng Shēng Kè",
       alias: ["生克制化", "母子关系"],
+      relatedIds: ["wuxing","five-zang","liver","spleen"],
+      mechanismLevel: "medium",
       summary: "五脏之间促进与约束的双向关系网。",
       tcm:
         "相生：木生火、火生土、土生金、金生水、水生木，构成「母子」促进链。相克：木克土、土克水、水克火、火克金、金克木，构成约束环。生中有克、克中有生，维持「制化」平衡。",
@@ -189,7 +197,7 @@ window.TCM_DATA = {
       refs: [
         { type: "classic", text: "《黄帝内经·素问·五运行大论》《素问·宝命全形论》" },
         { type: "modern", text: "Budden KF, et al. Emerging pathogenic links between microbiota and the gut–lung axis. Nature Reviews Microbiology, 2017, 15(1): 55–63." },
-        { type: "modern", text: "Angeli P, et al. Hyponatremia in cirrhosis: pathophysiology. Journal of Hepatology, 2019." },
+        { type: "modern", text: "Ginès P, et al. Hyponatremia in cirrhosis: from pathogenesis to treatment. Hepatology, 1998, 28(3): 851–864." },
       ],
     },
     {
@@ -199,6 +207,8 @@ window.TCM_DATA = {
       name: "气一元论",
       pinyin: "Qì Yī Yuán Lùn",
       alias: ["精气学说", "气本论"],
+      relatedIds: ["qi","jing","shen","yinyang"],
+      mechanismLevel: "analogical",
       summary: "气是构成万物的本原，也是生命活动的动力。",
       tcm:
         "《素问·宝命全形论》：『人以天地之气生。』气既是构成人体的物质，也是推动生命活动的功能。气一元论将物质与功能统一于「气」，是中医生理学的本体论基础。",
@@ -225,6 +235,8 @@ window.TCM_DATA = {
       name: "精",
       pinyin: "Jīng",
       alias: ["精气", "先天之精", "后天之精"],
+      relatedIds: ["kidney","kidney-jing-deficiency","shen","qiyuan"],
+      mechanismLevel: "medium",
       summary: "生命的物质基础与遗传载体，主生长发育与生殖。",
       tcm:
         "精是构成人体和维持生命活动的最基本物质，分先天之精（禀受父母）与后天之精（水谷化生）。《素问·金匮真言论》：『夫精者，身之本也。』精主生长、发育、生殖与化髓充脑。",
@@ -251,6 +263,8 @@ window.TCM_DATA = {
       name: "气",
       pinyin: "Qì",
       alias: ["元气", "宗气", "营气", "卫气"],
+      relatedIds: ["qiyuan","qi-deficiency","jing","shen","xue"],
+      mechanismLevel: "medium",
       summary: "推动、温煦、防御、固摄、气化五大功能。",
       tcm:
         "气是构成人体和维持生命活动的基本物质与功能。分类：元气（肾中精气化生，生命原动力）、宗气（肺吸入清气与脾运化水谷之气结合，聚于胸中）、营气（行于脉中，化生血液）、卫气（行于脉外，温养肌表、抗御外邪）。",
@@ -278,6 +292,8 @@ window.TCM_DATA = {
       name: "神",
       pinyin: "Shén",
       alias: ["神明", "元神", "识神"],
+      relatedIds: ["heart","jing","qi","xue"],
+      mechanismLevel: "medium",
       summary: "生命活动的外在征象与精神意识思维活动。",
       tcm:
         "神有广义与狭义之分。广义之神为人体生命活动的外在表现（「得神者昌，失神者亡」）；狭义之神指精神、意识、思维、情志活动，为心所主（「心藏神」）。神由精气血所化生，又统御精气血。",
@@ -304,6 +320,8 @@ window.TCM_DATA = {
       name: "血",
       pinyin: "Xuè",
       alias: ["营血", "血液"],
+      relatedIds: ["qi","blood-deficiency","blood-stasis","heart"],
+      mechanismLevel: "high",
       summary: "濡养全身、化神载气的红色液态物质。",
       tcm:
         "血是循行于脉中、富有营养的红色液态物质。《灵枢·营卫生会》：『中焦亦并胃中，出上焦之后，此所受气者，泌糟粕，蒸津液，化其精微，上注于肺脉，乃化而为血。』血主濡养、化神，与气互根（气为血帅，血为气母）。",
@@ -330,6 +348,8 @@ window.TCM_DATA = {
       name: "津液",
       pinyin: "Jīn Yè",
       alias: ["津", "液", "水液"],
+      relatedIds: ["phlegm-damp","sanjiao","lung","spleen","kidney"],
+      mechanismLevel: "high",
       summary: "机体一切正常水液的总称，主滋润与濡养。",
       tcm:
         "津液是机体一切正常水液的总称。清稀流动性大者为津（布散于体表、孔窍），稠厚流动性小者为液（灌注于骨节、脏腑、脑髓）。津液代谢依赖脾的运化、肺的宣降、肾的蒸腾气化与三焦的通调。",
@@ -341,13 +361,15 @@ window.TCM_DATA = {
         { tcm: "脾运化水湿", modern: "肠道水吸收与淋巴回流", note: "门静脉—淋巴系统" },
         { tcm: "肾主水", modern: "ADH/RAAS/ANP 调控的肾小管重吸收", note: "水钠平衡核心" },
         { tcm: "三焦通调水道", modern: "组织间质—淋巴—血流的液体通道", note: "见「三焦」条目" },
+        { tcm: "液充脑髓（脑脊液代谢）", modern: "类淋巴系统与脑膜淋巴管介导的中枢间质液—脑脊液交换与清除", note: "Louveau 2015；睡眠依赖性清除" },
       ],
       evidence: "A",
-      evidenceText: "水电解质生理学与津液代谢描述高度一致，指标明确（血钠、渗透压、出入量）。",
+      evidenceText: "水电解质生理学与津液代谢描述高度一致，指标明确（血钠、渗透压、出入量）；中枢间质液—类淋巴清除通路为「液充脑髓」提供了新证据。",
       refs: [
         { type: "classic", text: "《素问·经脉别论》《灵枢·决气》" },
         { type: "classic", text: "《素问·逆调论》" },
         { type: "modern", text: "Rose BD, Post TW. Clinical Physiology of Acid-Base and Electrolyte Disorders. 5th ed. McGraw-Hill, 2001." },
+        { type: "modern", text: "Louveau A, et al. Structural and functional features of central nervous system lymphatic vessels. Nature, 2015, 523(7560): 337–341." },
       ],
     },
 
@@ -359,6 +381,8 @@ window.TCM_DATA = {
       name: "五脏",
       pinyin: "Wǔ Zàng",
       alias: ["五藏", "藏象", "五脏系统"],
+      relatedIds: ["heart","liver","spleen","lung","kidney","six-fu"],
+      mechanismLevel: "medium",
       summary: "心肝脾肺肾五个功能系统，藏精气而不泻。",
       tcm:
         "五脏指心、肝、脾、肺、肾。《素问·五脏别论》：『所谓五脏者，藏精气而不泻也，故满而不能实。』五脏以「藏」为共性，各自统辖一组功能、一类形体官窍与一种情志，构成五个功能系统，而非五个解剖器官。",
@@ -387,6 +411,8 @@ window.TCM_DATA = {
       name: "心",
       pinyin: "Xīn",
       alias: ["心主血脉", "心藏神", "君主之官"],
+      relatedIds: ["heart-fire","heart-yin-deficiency","shen","xue","pericardium"],
+      mechanismLevel: "high",
       summary: "主血脉、藏神明，为五脏六腑之大主。",
       tcm:
         "心为君主之官，主血脉、藏神明。心气推动血液在脉中运行，濡养全身；心神主宰意识、思维、情志。其华在面，开窍于舌，在液为汗，与小肠相表里。",
@@ -414,6 +440,8 @@ window.TCM_DATA = {
       name: "肝",
       pinyin: "Gān",
       alias: ["肝主疏泄", "肝藏血", "将军之官"],
+      relatedIds: ["liver-yang-rising","liver-yin-deficiency","liver-qi-stagnation","wuxing-shengke"],
+      mechanismLevel: "high",
       summary: "主疏泄、藏血，调畅气机与情志。",
       tcm:
         "肝为将军之官，主疏泄、藏血。疏泄指调畅全身气机、促进脾胃运化、调畅情志、通利水道；藏血指贮藏血液、调节血量、防止出血。肝开窍于目，其华在爪，在志为怒，与胆相表里。",
@@ -442,6 +470,8 @@ window.TCM_DATA = {
       name: "脾",
       pinyin: "Pí",
       alias: ["脾主运化", "脾统血", "后天之本"],
+      relatedIds: ["spleen-qi-deficiency","spleen-yang-deficiency","damp-heat","phlegm-damp","stomach"],
+      mechanismLevel: "medium",
       summary: "主运化水谷、统摄血液，为气血生化之源。",
       tcm:
         "脾为后天之本、气血生化之源。主运化水谷精微与水湿，主升清，主统血。脾气主升，喜燥恶湿。开窍于口，其华在唇，在志为思，与胃相表里。",
@@ -453,13 +483,16 @@ window.TCM_DATA = {
         { tcm: "脾主升清", modern: "营养物质经门静脉向上输送；内脏下垂", note: "「中气下陷」≈盆底/胃下垂" },
         { tcm: "脾为后天之本", modern: "营养状态决定免疫与修复能力", note: "营养不良→免疫低下" },
         { tcm: "脾与肠道菌群", modern: "菌群结构影响短链脂肪酸、胆汁酸与免疫成熟", note: "脾虚患者菌群多样性下降" },
+        { tcm: "肝胆疏泄—脾胃运化（肠—肝轴）", modern: "肝脏合成初级胆汁酸 → 肠道菌群转化为次级胆汁酸 → 经 FXR/TGR5 通路调控糖脂代谢与黏膜免疫", note: "肠—肝轴；胆汁酸作为信号分子而非单纯乳化剂" },
       ],
       evidence: "B",
-      evidenceText: "「脾」的功能边界明确对应消化—免疫—菌群轴；解剖脾脏仅为部分对应。",
+      evidenceText: "「脾」的功能边界明确对应消化—免疫—菌群轴；肠—肝轴胆汁酸信号通路为「疏泄助运化」提供了分子层面的解释，解剖脾脏仅为部分对应。",
       refs: [
         { type: "classic", text: "《素问·灵兰秘典论》《素问·太阴阳明论》" },
         { type: "classic", text: "李杲《脾胃论》（1249）" },
         { type: "modern", text: "Wu HJ, Wu E. The role of gut microbiota in immune homeostasis and autoimmunity. Gut Microbes, 2012, 3(1): 4–14." },
+        { type: "modern", text: "Cryan JF, et al. The Microbiota-Gut-Brain Axis. Physiological Reviews, 2019, 99(4): 1877–2013." },
+        { type: "modern", text: "Wahlström A, et al. Intestinal crosstalk between bile acids and microbiota and its impact on host metabolism. Cell Metabolism, 2016, 24(4): 570–583." },
       ],
     },
     {
@@ -469,11 +502,13 @@ window.TCM_DATA = {
       name: "肺",
       pinyin: "Fèi",
       alias: ["肺主气", "肺朝百脉", "相傅之官"],
+      relatedIds: ["lung-yin-deficiency","wind-heat","wind-cold","large-intestine","weifen"],
+      mechanismLevel: "high",
       summary: "主气司呼吸、宣发肃降、通调水道。",
       tcm:
         "肺为相傅之官，主气、司呼吸，主宣发肃降，通调水道，朝百脉、主治节。肺外合皮毛，开窍于鼻，在志为悲，与大肠相表里。肺为娇脏，不耐寒热。",
       modern:
-        "肺对应**呼吸系统与黏膜免疫屏障**：气体交换（肺泡—毛细血管膜）、气道清除（纤毛、黏液）、肺表面活性物质、肺内免疫（肺泡巨噬细胞）、肺内 ACE 对 RAAS 的调节。「肺主皮毛」对应皮肤屏障与肺—皮肤免疫共享（同源于内胚层/外胚层界面的黏膜免疫）。",
+        "肺对应**呼吸系统与黏膜免疫屏障**：气体交换（肺泡—毛细血管膜）、气道清除（纤毛、黏液）、肺表面活性物质、肺内免疫（肺泡巨噬细胞）、肺内 ACE 对 RAAS 的调节。「肺主皮毛」对应皮肤屏障与肺—皮肤免疫共享——肺上皮（内胚层）与表皮（外胚层）虽胚胎起源不同，但共享上皮屏障免疫与警报素（TSLP、IL-25、IL-33）调控网络，因此特应性皮炎与哮喘常合并出现。",
       mappings: [
         { tcm: "肺主气司呼吸", modern: "肺泡气体交换、通气/血流比、呼吸驱动", note: "PaO₂、PaCO₂" },
         { tcm: "肺主宣发肃降", modern: "气道黏液纤毛清除与肺容积变化", note: "黏液纤毛梯" },
@@ -487,7 +522,7 @@ window.TCM_DATA = {
         { type: "classic", text: "《素问·灵兰秘典论》《素问·经脉别论》" },
         { type: "classic", text: "《灵枢·九针论》" },
         { type: "modern", text: "West JB. Respiratory Physiology: The Essentials. 10th ed. Wolters Kluwer, 2016." },
-        { type: "modern", text: "Silverberg JI, et al. Association between atopic dermatitis and asthma. Journal of Allergy and Clinical Immunology, 2013." },
+        { type: "modern", text: "Silverberg JI, Hanifin JM. Adult eczema prevalence and associations with asthma and other health and demographic factors: a US population-based study. Journal of Allergy and Clinical Immunology, 2013, 132(5): 1132–1138." },
       ],
     },
     {
@@ -497,6 +532,8 @@ window.TCM_DATA = {
       name: "肾",
       pinyin: "Shèn",
       alias: ["肾藏精", "肾主水", "先天之本", "作强之官"],
+      relatedIds: ["kidney-jing-deficiency","kidney-yang-deficiency","kidney-yin-deficiency","kidney-qi-not-solid","kidney-deficiency"],
+      mechanismLevel: "high",
       summary: "藏精、主水、纳气，为先天之本。",
       tcm:
         "肾为先天之本、作强之官。藏精，主生长发育与生殖；主水，司二便；主纳气；主骨生髓，其华在发，开窍于耳及二阴。肾阴肾阳为一身阴阳之根本。",
@@ -528,6 +565,8 @@ window.TCM_DATA = {
       name: "六腑",
       pinyin: "Liù Fǔ",
       alias: ["六府", "传化之腑"],
+      relatedIds: ["gallbladder","stomach","small-intestine","large-intestine","bladder","sanjiao"],
+      mechanismLevel: "medium",
       summary: "胆胃小肠大肠膀胱三焦，传化物而不藏。",
       tcm:
         "六腑指胆、胃、小肠、大肠、膀胱、三焦。《素问·五脏别论》：『六腑者，传化物而不藏，故实而不能满也。』六腑以「通降」为共性，负责受纳、腐熟、传化、排泄，以通为用、以降为顺。",
@@ -555,6 +594,8 @@ window.TCM_DATA = {
       name: "胆",
       pinyin: "Dǎn",
       alias: ["胆主决断", "中正之官", "奇恒之腑"],
+      relatedIds: ["liver","six-fu"],
+      mechanismLevel: "medium",
       summary: "贮藏排泄胆汁，主决断。",
       tcm:
         "胆为六腑之一，又属奇恒之腑。贮藏与排泄胆汁以助消化，主决断。与肝相表里，肝之余气化生胆汁。",
@@ -579,6 +620,8 @@ window.TCM_DATA = {
       name: "胃",
       pinyin: "Wèi",
       alias: ["胃主受纳", "水谷之海", "太仓"],
+      relatedIds: ["spleen","stomach-fire","six-fu"],
+      mechanismLevel: "high",
       summary: "受纳腐熟水谷，以降为和。",
       tcm:
         "胃为水谷之海、太仓。主受纳、腐熟水谷，主通降，喜润恶燥。与脾相表里，脾胃共为后天之本。",
@@ -604,6 +647,8 @@ window.TCM_DATA = {
       name: "小肠",
       pinyin: "Xiǎo Cháng",
       alias: ["小肠主液", "受盛之官"],
+      relatedIds: ["heart","large-intestine","six-fu"],
+      mechanismLevel: "high",
       summary: "受盛化物，泌别清浊。",
       tcm:
         "小肠为受盛之官。受盛胃中水谷，进一步化物，泌别清浊：清者上输于脾，浊者下传大肠，余水渗入膀胱。与心相表里。",
@@ -629,6 +674,8 @@ window.TCM_DATA = {
       name: "大肠",
       pinyin: "Dà Cháng",
       alias: ["大肠主津", "传导之官"],
+      relatedIds: ["lung","small-intestine","six-fu"],
+      mechanismLevel: "medium",
       summary: "传导糟粕，吸收水分，主排便。",
       tcm:
         "大肠为传导之官。接受小肠下传的糟粕，吸收其中多余水分（大肠主津），形成粪便并排出。与肺相表里。",
@@ -654,6 +701,8 @@ window.TCM_DATA = {
       name: "膀胱",
       pinyin: "Páng Guāng",
       alias: ["州都之官", "膀胱主气化"],
+      relatedIds: ["kidney","six-fu"],
+      mechanismLevel: "high",
       summary: "贮尿排尿，赖肾之气化。",
       tcm:
         "膀胱为州都之官，津液所聚。贮尿与排尿依赖肾的气化功能，「膀胱气化」实为肾阳蒸腾水液的外在表现。与肾相表里。",
@@ -679,6 +728,8 @@ window.TCM_DATA = {
       name: "三焦",
       pinyin: "Sān Jiāo",
       alias: ["决渎之官", "上焦中焦下焦"],
+      relatedIds: ["jinye","sanjiao-bianzheng","six-fu","pericardium"],
+      mechanismLevel: "analogical",
       summary: "通行元气、运行水液的大型通道系统。",
       tcm:
         "三焦为决渎之官，主通行元气、运行水液。上焦（心肺）如雾，主宣发；中焦（脾胃）如沤，主腐熟运化；下焦（肝肾膀胱）如渎，主排泄。三焦是气与水液运行的通道。",
@@ -690,13 +741,15 @@ window.TCM_DATA = {
         { tcm: "中焦如沤", modern: "胃肠的消化腐熟与吸收", note: "发酵/水解" },
         { tcm: "下焦如渎", modern: "肾—输尿管—膀胱—尿道的排泄通路", note: "尿路" },
         { tcm: "三焦通行元气", modern: "液体腔隙中的激素与信号分子扩散", note: "旁分泌/内分泌运输" },
+        { tcm: "三焦水道与脑脊液代谢", modern: "类淋巴系统（glymphatic system）与脑膜淋巴管介导的中枢间质液清除", note: "Louveau 2015；脑—颈淋巴通路；睡眠期清除效率显著升高" },
       ],
       evidence: "C",
-      evidenceText: "无解剖实体，属功能通道概念；与间质—淋巴系统的结构性类比成立但不能等同。",
+      evidenceText: "无解剖实体，属功能通道概念；与间质—淋巴系统及类淋巴通路的结构性类比成立，但不能等同。",
       refs: [
         { type: "classic", text: "《素问·灵兰秘典论》《灵枢·营卫生会》" },
         { type: "classic", text: "《难经·三十一难》" },
         { type: "modern", text: "Benias PC, et al. Structure and distribution of an unrecognized interstitium in human tissues. Scientific Reports, 2018, 8: 4947." },
+        { type: "modern", text: "Louveau A, et al. Structural and functional features of central nervous system lymphatic vessels. Nature, 2015, 523(7560): 337–341." },
       ],
     },
     {
@@ -706,6 +759,8 @@ window.TCM_DATA = {
       name: "心包",
       pinyin: "Xīn Bāo",
       alias: ["心包络", "膻中", "臣使之官"],
+      relatedIds: ["heart","sanjiao"],
+      mechanismLevel: "medium",
       summary: "心之外围，代心受邪。",
       tcm:
         "心包为心之外围，有保护心脏的作用。「代心受邪」：外邪犯心，先犯心包。手厥阴心包经与手少阳三焦经相表里。",
@@ -720,7 +775,7 @@ window.TCM_DATA = {
       evidenceText: "解剖心包对应明确；「代心受邪」为功能类比。",
       refs: [
         { type: "classic", text: "《灵枢·邪客》《素问·灵兰秘典论》" },
-        { type: "modern", text: "Imazio M, et al. Acute pericarditis: aetiology and management. Lancet, 2015." },
+        { type: "modern", text: "Imazio M, Gaita F, LeWinter M. Evaluation and Treatment of Pericarditis: A Systematic Review. JAMA, 2015, 314(14): 1498–1506." },
       ],
     },
 
@@ -732,6 +787,8 @@ window.TCM_DATA = {
       name: "肾精亏虚",
       pinyin: "Shèn Jīng Kuī Xū",
       alias: ["肾精不足", "精亏"],
+      relatedIds: ["kidney","kidney-yin-deficiency","kidney-yang-deficiency","kidney-deficiency"],
+      mechanismLevel: "medium",
       summary: "生长发育迟缓、早衰、生殖功能下降。",
       tcm:
         "肾精亏虚多因先天不足、后天失养、久病耗损或年老精衰。症见小儿发育迟缓、成人早衰（发脱齿摇、健忘耳聋）、生殖功能低下、腰膝酸软、骨痿无力。",
@@ -759,6 +816,8 @@ window.TCM_DATA = {
       name: "肾亏",
       pinyin: "Shèn Kuī",
       alias: ["肾虚", "肾亏虚"],
+      relatedIds: ["kidney","kidney-jing-deficiency","kidney-yang-deficiency","kidney-yin-deficiency","kidney-qi-not-solid"],
+      mechanismLevel: "analogical",
       summary: "肾系虚损的统称，需进一步分阴阳精气。",
       tcm:
         "「肾亏」是肾虚的民间统称，涵盖肾精亏虚、肾气虚、肾阴虚、肾阳虚等不同证型。临床表现可为腰膝酸软、乏力、耳鸣、脱发、性功能减退、畏寒或潮热等。中医强调必须进一步辨明「阴虚、阳虚、精亏、气不固」，不可一概而论。",
@@ -786,6 +845,8 @@ window.TCM_DATA = {
       name: "肾阳虚",
       pinyin: "Shèn Yáng Xū",
       alias: ["命门火衰", "肾阳不足"],
+      relatedIds: ["kidney","kidney-yin-deficiency","kidney-jing-deficiency","shaoyin","spleen-yang-deficiency"],
+      mechanismLevel: "high",
       summary: "畏寒肢冷、腰膝冷痛、性功能减退、水肿。",
       tcm:
         "肾阳虚为肾阳亏虚、温煦失职。症见畏寒肢冷（尤以下肢为甚）、腰膝冷痛、面色㿠白、神疲乏力、性欲减退、阳痿早泄、五更泄泻、水肿尿少、舌淡胖苔白、脉沉迟无力。",
@@ -803,6 +864,7 @@ window.TCM_DATA = {
       evidenceText: "HPA 轴、甲状腺轴与能量代谢的对应有系统研究支持，是中国中西医结合研究的经典范例。",
       refs: [
         { type: "classic", text: "《景岳全书·命门余义》（张介宾，1624）" },
+        { type: "classic", text: "《类经附翼·求正录·三焦包络命门辨》（张介宾，1624）" },
         { type: "classic", text: "《素问·生气通天论》" },
         { type: "modern", text: "沈自尹, 王文健. 中医虚证辨证参考标准. 中西医结合杂志, 1986, 6(10): 598." },
         { type: "modern", text: "沈自尹. 肾阳虚证的定位研究. 中国中西医结合杂志, 1997, 17(1): 50–52." },
@@ -815,6 +877,8 @@ window.TCM_DATA = {
       name: "肾阴虚",
       pinyin: "Shèn Yīn Xū",
       alias: ["肾水不足", "真阴亏虚"],
+      relatedIds: ["kidney","kidney-yang-deficiency","liver-yin-deficiency","heart-yin-deficiency","yingfen"],
+      mechanismLevel: "medium",
       summary: "腰膝酸软、潮热盗汗、五心烦热、眩晕耳鸣。",
       tcm:
         "肾阴虚为肾阴亏虚、虚热内生。症见腰膝酸软、头晕耳鸣、失眠多梦、潮热盗汗、五心烦热、口干咽燥、舌红少苔、脉细数。",
@@ -833,7 +897,7 @@ window.TCM_DATA = {
         { type: "classic", text: "《景岳全书·真阴论》（1624）" },
         { type: "classic", text: "朱震亨《格致余论·阳有余阴不足论》（1347）" },
         { type: "modern", text: "沈自尹. 肾阳虚证的定位研究. 中国中西医结合杂志, 1997, 17(1): 50–52." },
-        { type: "modern", text: "Thurston RC, et al. Vasomotor symptoms and cardiovascular risk. Menopause, 2017." },
+        { type: "modern", text: "El Khoudary SR, et al. Menopause Transition and Cardiovascular Disease Risk: Implications for Timing of Early Prevention. Circulation, 2020, 142(25): e506–e532." },
       ],
     },
     {
@@ -843,6 +907,8 @@ window.TCM_DATA = {
       name: "肾气不固",
       pinyin: "Shèn Qì Bù Gù",
       alias: ["肾气亏虚", "下元不固"],
+      relatedIds: ["kidney","bladder","kidney-yang-deficiency"],
+      mechanismLevel: "medium",
       summary: "小便频数失禁、遗精滑泄、胎动易滑。",
       tcm:
         "肾气不固为肾气亏虚、封藏失职。症见小便频数而清、尿后余沥、夜尿多、遗尿失禁、男子遗精滑精、女子白带清稀、胎动易滑、腰膝酸软、舌淡脉弱。",
@@ -868,6 +934,8 @@ window.TCM_DATA = {
       name: "肾不纳气",
       pinyin: "Shèn Bù Nà Qì",
       alias: ["肾虚喘促"],
+      relatedIds: ["kidney","lung","qi-deficiency"],
+      mechanismLevel: "medium",
       summary: "久病咳喘、动则气促、呼多吸少。",
       tcm:
         "肾不纳气为肾气虚衰、摄纳无权。症见久病咳喘、气短不足以息、动则喘甚、呼多吸少、腰膝酸软、汗出肢冷、舌淡脉沉弱。",
@@ -893,6 +961,8 @@ window.TCM_DATA = {
       name: "肺阴虚",
       pinyin: "Fèi Yīn Xū",
       alias: ["肺阴不足", "肺燥"],
+      relatedIds: ["lung","qi-yin-deficiency","kidney-yin-deficiency","wind-heat"],
+      mechanismLevel: "medium",
       summary: "干咳少痰、咽干口燥、声嘶、痰中带血。",
       tcm:
         "肺阴虚为肺阴亏耗、虚热内生。症见干咳无痰或痰少而黏、痰中带血、咽干口燥、声音嘶哑、午后潮热、盗汗、舌红少津、脉细数。",
@@ -910,7 +980,7 @@ window.TCM_DATA = {
       refs: [
         { type: "classic", text: "《素问·痿论》《医宗金鉴·肺痿》" },
         { type: "classic", text: "叶天士《临证指南医案·燥》" },
-        { type: "modern", text: "Raghu G, et al. Idiopathic pulmonary fibrosis: diagnosis and management. American Journal of Respiratory and Critical Care Medicine, 2018." },
+        { type: "modern", text: "Raghu G, et al. Diagnosis of Idiopathic Pulmonary Fibrosis: An Official ATS/ERS/JRS/ALAT Clinical Practice Guideline. American Journal of Respiratory and Critical Care Medicine, 2018, 198(5): e44–e68." },
       ],
     },
     {
@@ -920,6 +990,8 @@ window.TCM_DATA = {
       name: "肝阳上亢",
       pinyin: "Gān Yáng Shàng Kàng",
       alias: ["肝阳偏亢", "阴虚阳亢"],
+      relatedIds: ["liver","liver-yin-deficiency","kidney-yin-deficiency","bagang-yinyang"],
+      mechanismLevel: "high",
       summary: "眩晕耳鸣、头目胀痛、面红目赤、急躁易怒。",
       tcm:
         "肝阳上亢多由肝肾阴虚、水不涵木，致肝阳偏亢而上扰。症见眩晕耳鸣、头目胀痛、面红目赤、急躁易怒、失眠多梦、腰膝酸软、舌红少津、脉弦有力。",
@@ -932,13 +1004,13 @@ window.TCM_DATA = {
         { tcm: "脉弦", modern: "外周阻力增高导致的脉搏波形改变", note: "脉搏波传导速度（PWV）" },
         { tcm: "肝肾阴虚为本", modern: "RAAS 激活与血管内皮功能损伤", note: "AngII、NO 生物利用度" },
       ],
-      evidence: "A",
-      evidenceText: "高血压与交感/RAAS 激活的对应有大量临床与机制研究；「肝阳」作为证候与高血压并非一一对应，需辨证。",
+      evidence: "B",
+      evidenceText: "高血压与交感/RAAS 激活的病理机制成熟（机制层面为 A），但「肝阳上亢证」与高血压并非一一对应：相当比例高血压患者无典型肝阳上亢表现，而肝阳上亢亦可见于血压正常者。证据等级评估的是证候—疾病映射强度，故定为 B。",
       refs: [
         { type: "classic", text: "《素问·至真要大论》「诸风掉眩，皆属于肝」" },
         { type: "classic", text: "叶天士《临证指南医案·眩晕》" },
-        { type: "modern", text: "Mancia G, et al. 2023 ESH Guidelines for the management of arterial hypertension. Journal of Hypertension, 2023." },
-        { type: "modern", text: "Grassi G. Sympathetic neural activity in hypertension and related diseases. American Journal of Hypertension, 2010." },
+        { type: "modern", text: "Mancia G, et al. 2023 ESH Guidelines for the management of arterial hypertension. Journal of Hypertension, 2023, 41(12): 1874–2071." },
+        { type: "modern", text: "Grassi G. Sympathetic neural activity in hypertension and related diseases. American Journal of Hypertension, 2010, 23(10): 1052–1060." },
       ],
     },
     {
@@ -948,6 +1020,8 @@ window.TCM_DATA = {
       name: "肝阴不足",
       pinyin: "Gān Yīn Bù Zú",
       alias: ["肝阴虚", "肝血虚"],
+      relatedIds: ["liver","liver-yang-rising","kidney-yin-deficiency","heart-yin-deficiency"],
+      mechanismLevel: "medium",
       summary: "头晕眼花、两目干涩、胁肋隐痛、肢体麻木。",
       tcm:
         "肝阴不足为肝之阴血亏虚、濡养失职。症见头晕眼花、两目干涩、视物模糊、胁肋隐痛、肢体麻木、筋惕肉𥆧、五心烦热、舌红少津、脉弦细。",
@@ -965,7 +1039,7 @@ window.TCM_DATA = {
       refs: [
         { type: "classic", text: "《素问·五脏生成篇》《灵枢·本神》" },
         { type: "classic", text: "《医宗金鉴·杂病心法要诀》" },
-        { type: "modern", text: "European Association for the Study of the Liver. EASL Clinical Practice Guidelines on nutrition in chronic liver disease. 2019." },
+        { type: "modern", text: "European Association for the Study of the Liver. EASL Clinical Practice Guidelines on nutrition in chronic liver disease. Journal of Hepatology, 2019, 70(1): 172–193." },
       ],
     },
     {
@@ -975,23 +1049,27 @@ window.TCM_DATA = {
       name: "心火亢盛",
       pinyin: "Xīn Huǒ Kàng Shèng",
       alias: ["心火", "心火上炎"],
+      relatedIds: ["heart","shanghuo","heart-yin-deficiency","stomach-fire"],
+      mechanismLevel: "medium",
       summary: "心烦失眠、口舌生疮、面赤口渴、舌尖红。",
       tcm:
         "心火亢盛为心火内炽、扰乱心神。症见心烦失眠、口舌生疮、舌尖红赤疼痛、面赤口渴、小便短赤、甚则狂躁谵语、吐血衄血。",
       modern:
-        "对应**交感神经兴奋性增高 + 口腔黏膜局部炎症 + 睡眠—觉醒调节紊乱**：心率增快、血压升高、皮温升高、口腔溃疡（复发性阿弗他口炎）、焦虑与失眠。「心开窍于舌」使口腔溃疡成为「心火」最具象的对应。",
+        "对应**交感神经兴奋性增高 + 口腔黏膜局部炎症 + 睡眠—觉醒调节紊乱**：心率增快、血压升高、皮温升高、口腔溃疡（复发性阿弗他口炎）、焦虑与失眠。「心开窍于舌」使口腔溃疡成为「心火」最具象的对应。\n\n需注意中医内部的区分：**君火**属心之正火，主神明与血脉，宜静不宜亢；**相火**（朱震亨《格致余论·相火论》）寄于肝肾，为「动气」，妄动则耗阴。故并非所有局部急性炎症都可归为「心火」——口舌生疮须辨虚实（实火多见于青壮年、便秘口臭；虚火多见于阴虚体质、反复发作），咽痛、牙龈肿痛多归胃火或风热，目赤多归肝火。",
       mappings: [
         { tcm: "口舌生疮", modern: "复发性阿弗他口炎、口腔黏膜免疫异常", note: "与压力、睡眠不足、营养缺乏相关" },
         { tcm: "心烦失眠", modern: "交感张力增高、入睡潜伏期延长、睡眠碎片化", note: "PSG、HRV" },
         { tcm: "面赤", modern: "头面部血管扩张、皮温升高", note: "红外热成像" },
         { tcm: "小便短赤", modern: "尿液浓缩、尿胆原/尿比重升高", note: "脱水状态" },
         { tcm: "心火—炎症", modern: "促炎因子（IL-6、TNF-α）升高与氧化应激", note: "低度炎症" },
+        { tcm: "君火 / 相火", modern: "君火≈中枢—心血管的兴奋性调控；相火≈HPA 轴与性腺轴的应激性动员", note: "「相火妄动」近似慢性应激下的皮质醇与性激素紊乱" },
       ],
       evidence: "B",
-      evidenceText: "口腔溃疡与交感兴奋对应直观；「心火」是证候群而非单一疾病。",
+      evidenceText: "口腔溃疡与交感兴奋对应直观；「心火」是证候群而非单一疾病，且需与胃火、肝火、虚火鉴别。",
       refs: [
         { type: "classic", text: "《素问·至真要大论》「诸痛痒疮，皆属于心」" },
         { type: "classic", text: "刘完素《素问玄机原病式》（1186）" },
+        { type: "classic", text: "朱震亨《格致余论·相火论》（1347）" },
         { type: "modern", text: "Scully C. Clinical practice: aphthous ulceration. New England Journal of Medicine, 2006, 355(2): 165–172." },
       ],
     },
@@ -1002,6 +1080,8 @@ window.TCM_DATA = {
       name: "心阴不足",
       pinyin: "Xīn Yīn Bù Zú",
       alias: ["心阴虚", "心阴亏虚"],
+      relatedIds: ["heart","heart-fire","kidney-yin-deficiency","qi-yin-deficiency"],
+      mechanismLevel: "medium",
       summary: "心悸怔忡、失眠多梦、五心烦热、盗汗。",
       tcm:
         "心阴不足为心阴亏虚、虚热内扰。症见心悸怔忡、失眠多梦、心烦、五心烦热、潮热盗汗、口干、舌红少苔、脉细数。",
@@ -1028,6 +1108,8 @@ window.TCM_DATA = {
       name: "脾虚",
       pinyin: "Pí Xū",
       alias: ["脾气虚", "脾胃虚弱", "中气不足"],
+      relatedIds: ["spleen","spleen-yang-deficiency","qi-deficiency","damp-heat"],
+      mechanismLevel: "medium",
       summary: "食少腹胀、便溏乏力、面色萎黄、舌淡。",
       tcm:
         "脾虚（脾气虚）为脾气不足、运化失职。症见食少纳呆、腹胀便溏、神疲乏力、少气懒言、面色萎黄、形体消瘦或浮肿、舌淡苔白、脉缓弱。",
@@ -1046,7 +1128,7 @@ window.TCM_DATA = {
       refs: [
         { type: "classic", text: "《素问·太阴阳明论》" },
         { type: "classic", text: "李杲《脾胃论》（1249）" },
-        { type: "modern", text: "中国中西医结合学会消化系统疾病专业委员会. 脾虚证中西医结合诊疗共识意见. 2017." },
+        { type: "modern", text: "中国中西医结合学会消化系统疾病专业委员会. 脾虚证中西医结合诊疗共识意见（2017 年）. 中国中西医结合消化杂志, 2017, 25(12): 889–894." },
         { type: "modern", text: "Wu HJ, Wu E. The role of gut microbiota in immune homeostasis and autoimmunity. Gut Microbes, 2012, 3(1): 4–14." },
       ],
     },
@@ -1057,6 +1139,8 @@ window.TCM_DATA = {
       name: "脾阳虚",
       pinyin: "Pí Yáng Xū",
       alias: ["脾胃虚寒", "中焦虚寒"],
+      relatedIds: ["spleen","spleen-qi-deficiency","kidney-yang-deficiency","taiyin"],
+      mechanismLevel: "medium",
       summary: "腹冷痛喜温喜按、久泻不止、四肢不温。",
       tcm:
         "脾阳虚为脾气虚进一步发展、阳气不足。症见腹胀纳少、腹痛喜温喜按、畏寒肢冷、大便溏薄清稀或完谷不化、肢体浮肿、小便不利、舌淡胖苔白滑、脉沉迟无力。",
@@ -1083,6 +1167,8 @@ window.TCM_DATA = {
       name: "胃火",
       pinyin: "Wèi Huǒ",
       alias: ["胃热", "胃火炽盛"],
+      relatedIds: ["stomach","heart-fire","shanghuo","damp-heat"],
+      mechanismLevel: "medium",
       summary: "胃脘灼痛、口渴喜冷、牙龈肿痛、口臭便秘。",
       tcm:
         "胃火（胃热）为胃中火热炽盛。症见胃脘灼热疼痛、渴喜冷饮、消谷善饥、牙龈肿痛出血、口臭、便秘尿黄、舌红苔黄、脉滑数。",
@@ -1099,7 +1185,7 @@ window.TCM_DATA = {
       evidenceText: "多系统炎症对应明确；「胃火」需与糖尿病、甲亢等代谢病鉴别。",
       refs: [
         { type: "classic", text: "《素问·气厥论》《兰室秘藏》（李杲）" },
-        { type: "modern", text: "Malfertheiner P, et al. Management of Helicobacter pylori infection: the Maastricht VI/Florence consensus report. Gut, 2022." },
+        { type: "modern", text: "Malfertheiner P, et al. Management of Helicobacter pylori infection: the Maastricht VI/Florence consensus report. Gut, 2022, 71(9): 1724–1762." },
       ],
     },
     {
@@ -1109,6 +1195,8 @@ window.TCM_DATA = {
       name: "气虚",
       pinyin: "Qì Xū",
       alias: ["正气不足", "元气虚"],
+      relatedIds: ["qi","qi-yin-deficiency","spleen-qi-deficiency","kidney-deficiency"],
+      mechanismLevel: "medium",
       summary: "少气懒言、疲乏自汗、易感冒、脉弱。",
       tcm:
         "气虚为元气不足、功能减退。症见少气懒言、神疲乏力、头晕目眩、自汗、活动后加重、易感冒、舌淡苔白、脉虚无力。",
@@ -1125,7 +1213,7 @@ window.TCM_DATA = {
       evidenceText: "能量代谢与耐力指标方向一致；「气虚」为跨系统证候，非单一疾病。",
       refs: [
         { type: "classic", text: "《素问·通评虚实论》《灵枢·海论》" },
-        { type: "modern", text: "中国中西医结合学会. 中医虚证辨证参考标准. 1986." },
+        { type: "modern", text: "中国中西医结合学会. 中医虚证辨证参考标准. 中西医结合杂志, 1986, 6(10): 598." },
         { type: "modern", text: "Fitts RH. The cross-bridge cycle and skeletal muscle fatigue. Journal of Applied Physiology, 2008, 104(2): 551–558." },
       ],
     },
@@ -1136,6 +1224,8 @@ window.TCM_DATA = {
       name: "血虚",
       pinyin: "Xuè Xū",
       alias: ["营血虚", "血亏"],
+      relatedIds: ["xue","qi-deficiency","heart-yin-deficiency","liver-yin-deficiency"],
+      mechanismLevel: "high",
       summary: "面色淡白、头晕心悸、失眠、爪甲不荣。",
       tcm:
         "血虚为血液亏虚、濡养失职。症见面色淡白或萎黄、唇甲色淡、头晕眼花、心悸失眠、手足发麻、月经量少色淡、舌淡、脉细。",
@@ -1147,8 +1237,8 @@ window.TCM_DATA = {
         { tcm: "手足发麻", modern: "维生素 B12 缺乏性周围神经病变", note: "血清 B12、同型半胱氨酸" },
         { tcm: "失眠", modern: "脑灌注与神经递质合成（铁为酪氨酸羟化酶辅因子）", note: "铁缺乏与睡眠/不宁腿" },
       ],
-      evidence: "A",
-      evidenceText: "贫血诊断标准明确，与「血虚」表型高度重叠。",
+      evidence: "B",
+      evidenceText: "贫血诊断标准明确、机制清晰（机制层面为 A），但「血虚证」涵盖范围大于贫血：血虚者未必血红蛋白降低，贫血者亦未必符合血虚证型。证据等级评估的是证候—疾病映射强度，故定为 B。",
       refs: [
         { type: "classic", text: "《灵枢·决气》《素问·举痛论》" },
         { type: "modern", text: "WHO. Haemoglobin concentrations for the diagnosis of anaemia. 2011." },
@@ -1161,6 +1251,8 @@ window.TCM_DATA = {
       name: "上火",
       pinyin: "Shàng Huǒ",
       alias: ["火气", "内热", "热气"],
+      relatedIds: ["heart-fire","stomach-fire","liver-yang-rising","damp-heat"],
+      mechanismLevel: "medium",
       summary: "口疮、咽痛、牙龈肿、痘疹、便秘的民间统称。",
       tcm:
         "「上火」是民间对一组火热证候的统称，可见口舌生疮、咽喉肿痛、牙龈肿痛、目赤、面部痤疮、便秘尿黄等。可因外感、饮食辛辣、情志郁结、熬夜等诱发，涉及心火、胃火、肝火等不同脏腑定位。",
@@ -1188,6 +1280,8 @@ window.TCM_DATA = {
       name: "肝气郁结",
       pinyin: "Gān Qì Yù Jié",
       alias: ["肝郁", "气滞"],
+      relatedIds: ["liver","qi-stagnation-blood-stasis","phlegm-damp","shaoyang"],
+      mechanismLevel: "medium",
       summary: "情志抑郁、胸胁胀痛、善太息、月经不调。",
       tcm:
         "肝气郁结为肝失疏泄、气机郁滞。症见情志抑郁或易怒、胸胁胀满窜痛、善太息、咽中如有物阻（梅核气）、女性乳房胀痛与月经不调、舌淡红苔薄白、脉弦。",
@@ -1215,6 +1309,8 @@ window.TCM_DATA = {
       name: "痰湿",
       pinyin: "Tán Shī",
       alias: ["痰湿内阻", "湿浊", "痰浊"],
+      relatedIds: ["spleen","damp-heat","blood-stasis","xue"],
+      mechanismLevel: "high",
       summary: "形体肥胖、胸闷痰多、苔腻、身重困倦。",
       tcm:
         "痰湿为水液代谢障碍所形成的病理产物，又可成为致病因素。症见形体肥胖、胸闷脘痞、痰多黏腻、头晕身重、口黏不渴、大便黏滞、舌体胖大苔白腻、脉滑。",
@@ -1227,14 +1323,17 @@ window.TCM_DATA = {
         { tcm: "身重困倦", modern: "胰岛素抵抗致乏力、睡眠质量下降", note: "HOMA-IR" },
         { tcm: "痰湿—脂肪肝", modern: "非酒精性脂肪性肝病（NAFLD/MASLD）", note: "肝脏超声、肝酶" },
         { tcm: "痰湿—代谢综合征", modern: "血脂、血糖、血压、腰围四联异常", note: "MetS 诊断标准" },
+        { tcm: "湿浊内生（肠—肝轴）", modern: "肠道菌群失调改变胆汁酸池组成 → FXR/TGR5 信号受抑 → 肝脏脂质合成增加、胰岛素抵抗加重", note: "肠—肝轴；「湿浊」可对应次级胆汁酸与内毒素负荷升高" },
       ],
       evidence: "A",
-      evidenceText: "痰湿证与代谢综合征的重叠有大量流行病学与机制研究，是可量化度最高的证候之一。",
+      evidenceText: "痰湿证与代谢综合征的重叠有大量流行病学与机制研究；肠—肝轴胆汁酸信号为「湿浊内生」提供了可测的分子通路，是可量化度最高的证候之一。",
       refs: [
         { type: "classic", text: "《丹溪心法·痰》（朱震亨，1347）" },
         { type: "classic", text: "《医宗金鉴·痰饮》" },
         { type: "modern", text: "Alberti KG, et al. Harmonizing the metabolic syndrome. Circulation, 2009, 120(16): 1640–1645." },
-        { type: "modern", text: "中华中医药学会. 痰湿体质与代谢综合征相关性研究. 中国中西医结合杂志." },
+        { type: "modern", text: "中华中医药学会. 中医体质分类与判定 (ZYYXH/T157-2009). 北京: 中国中医药出版社, 2009." },
+        { type: "modern", text: "Cryan JF, et al. The Microbiota-Gut-Brain Axis. Physiological Reviews, 2019, 99(4): 1877–2013." },
+        { type: "modern", text: "Wahlström A, et al. Intestinal crosstalk between bile acids and microbiota and its impact on host metabolism. Cell Metabolism, 2016, 24(4): 570–583." },
       ],
     },
     {
@@ -1244,6 +1343,8 @@ window.TCM_DATA = {
       name: "血瘀",
       pinyin: "Xuè Yū",
       alias: ["瘀血", "蓄血"],
+      relatedIds: ["xue","qi-stagnation-blood-stasis","phlegm-damp","xuefen"],
+      mechanismLevel: "high",
       summary: "刺痛固定、面色晦暗、舌紫暗有瘀斑、脉涩。",
       tcm:
         "血瘀为血液运行不畅或离经之血留滞。症见刺痛固定不移、面色晦暗、口唇紫暗、肌肤瘀斑、癥积肿块、舌质紫暗或有瘀点、脉涩。",
@@ -1256,14 +1357,178 @@ window.TCM_DATA = {
         { tcm: "癥积肿块", modern: "纤维化、肿瘤、血栓机化", note: "影像学" },
         { tcm: "血瘀—高凝", modern: "血小板活化、凝血—纤溶失衡", note: "D-二聚体、血小板聚集率" },
         { tcm: "血瘀—内皮", modern: "内皮功能障碍与动脉粥样硬化", note: "FMD、内皮素-1" },
+        { tcm: "热毒/痰瘀互结致微血栓", modern: "中性粒细胞胞外诱捕网（NETs）驱动的免疫血栓（immunothrombosis）", note: "Engelmann & Massberg 2013；NETs 提供凝血激活表面并损伤内皮" },
       ],
       evidence: "A",
-      evidenceText: "血瘀证诊断标准与实验室指标成熟，是中西医结合最成功的范式之一。",
+      evidenceText: "血瘀证诊断标准与实验室指标成熟，是中西医结合最成功的范式之一；NETs 驱动的免疫血栓为「热毒致瘀」提供了细胞层面的机制。",
       refs: [
         { type: "classic", text: "《素问·调经论》" },
         { type: "classic", text: "王清任《医林改错》（1830）" },
-        { type: "modern", text: "中国中西医结合学会活血化瘀专业委员会. 血瘀证诊断标准（2016 修订）." },
+        { type: "modern", text: "中国中西医结合学会活血化瘀专业委员会. 血瘀证诊断标准. 中国中西医结合杂志, 1987, 7(3): 129；2016 年修订版." },
         { type: "modern", text: "Libby P. Inflammation in atherosclerosis. Nature, 2002, 420(6917): 868–874." },
+        { type: "modern", text: "Engelmann B, Massberg S. Thrombosis as an intravascular effector of innate immunity. Nature Reviews Immunology, 2013, 13(1): 34–45." },
+      ],
+    },
+
+    /* ---- 新增：湿热内蕴 ---- */
+    {
+      id: "damp-heat",
+      layer: "L3",
+      group: "病理产物",
+      name: "湿热内蕴",
+      pinyin: "Shī Rè Nèi Yùn",
+      alias: ["湿热", "湿热蕴结", "中焦湿热"],
+      relatedIds: ["spleen","stomach","phlegm-damp","liver","shanghuo"],
+      mechanismLevel: "medium",
+      summary: "身热不扬、口苦黏腻、舌苔黄腻、大便黏滞。",
+      tcm:
+        "湿热为湿与热合、蕴结不解。多由感受湿热之邪、嗜食肥甘厚味、脾胃运化失常而化生。症见身热不扬（热为湿遏）、午后热甚、口苦口黏、胸闷脘痞、大便黏滞臭秽、小便短赤、舌红苔黄腻、脉滑数。湿热可弥漫三焦，须辨上焦（头面、肺）、中焦（脾胃）、下焦（肝肾、二阴）之定位。",
+      modern:
+        "对应**慢性低度炎症 + 肠道菌群失调 + 胆汁淤积与代谢紊乱**的组合表型：CRP/IL-6 轻度升高、肠道菌群多样性下降、次级胆汁酸比例改变、肝内胆汁淤积指标（GGT、ALP）升高、粪便性状改变。与代谢综合征、非酒精性脂肪性肝病、慢性胃炎及炎症性肠病部分表型重叠。",
+      mappings: [
+        { tcm: "身热不扬", modern: "炎症性低热伴散热效率下降；核心温度与皮温分离", note: "皮温—核心温度梯度" },
+        { tcm: "口苦口黏、苔黄腻", modern: "口腔菌群改变、唾液黏度升高、胆汁反流", note: "舌苔微生物组测序" },
+        { tcm: "大便黏滞臭秽", modern: "菌群失调致短链脂肪酸谱改变、肠黏膜低度炎症", note: "16S rRNA、粪钙卫蛋白" },
+        { tcm: "胸闷脘痞", modern: "功能性消化不良与内脏高敏感", note: "罗马 IV 标准" },
+        { tcm: "胆汁淤积与代谢紊乱", modern: "次级胆汁酸比例异常、FXR/TGR5 信号受抑、肝脏脂质合成增加", note: "GGT、ALP、胆汁酸谱" },
+        { tcm: "小便短赤", modern: "尿液浓缩、尿胆原升高", note: "尿常规、尿比重" },
+      ],
+      evidence: "B",
+      evidenceText: "湿热证与代谢/炎症表型的关联有较多临床研究；但「湿热」是跨系统证候群，缺乏统一定量标准，且需与感染性发热、肝胆器质性疾病鉴别。",
+      refs: [
+        { type: "classic", text: "《素问·生气通天论》「湿热不攘，大筋緛短，小筋弛长」" },
+        { type: "classic", text: "薛生白《湿热病篇》（1770）" },
+        { type: "classic", text: "王孟英《温热经纬》（1852）" },
+        { type: "modern", text: "Wahlström A, et al. Intestinal crosstalk between bile acids and microbiota and its impact on host metabolism. Cell Metabolism, 2016, 24(4): 570–583." },
+        { type: "modern", text: "Cryan JF, et al. The Microbiota-Gut-Brain Axis. Physiological Reviews, 2019, 99(4): 1877–2013." },
+      ],
+    },
+
+    /* ---- 新增：气滞血瘀 ---- */
+    {
+      id: "qi-stagnation-blood-stasis",
+      layer: "L3",
+      group: "气血证候",
+      name: "气滞血瘀",
+      pinyin: "Qì Zhì Xuè Yū",
+      alias: ["气血瘀滞", "气结血瘀"],
+      relatedIds: ["liver-qi-stagnation","blood-stasis","xue","liver"],
+      mechanismLevel: "medium",
+      summary: "胀痛与刺痛并见、痛处固定、舌紫暗脉弦涩。",
+      tcm:
+        "气为血帅，气行则血行，气滞日久则血行不畅而成瘀。症见胸胁胀满、走窜疼痛与固定刺痛并见、痛处拒按、情志抑郁或急躁、面色晦暗、肌肤瘀斑、舌紫暗或有瘀点、脉弦或涩。",
+      modern:
+        "对应**心理应激/自主神经失调 + 血管内皮功能障碍 + 血小板高反应性**三重机制：慢性应激经交感激活与皮质醇升高，增强血小板聚集性、降低内皮一氧化氮生物利用度、增加微循环阻力，形成「应激—内皮—血小板」的恶性循环。",
+      mappings: [
+        { tcm: "情志诱发或加重", modern: "心理应激经杏仁核—HPA/交感通路影响血小板与内皮功能", note: "应激性血小板活化" },
+        { tcm: "痛处固定刺痛", modern: "局部微循环障碍与组织缺血", note: "微循环成像、经皮氧分压" },
+        { tcm: "舌紫暗、脉弦涩", modern: "舌微循环淤滞 + 外周阻力增高 + 血液黏度升高", note: "舌微循环、全血黏度、PWV" },
+        { tcm: "血小板高反应性", modern: "P-选择素、β-血栓球蛋白升高，血小板聚集率增加", note: "血小板功能检测" },
+        { tcm: "内皮功能障碍", modern: "血流介导舒张（FMD）下降、内皮素-1 升高、NO 降低", note: "FMD、ET-1" },
+      ],
+      evidence: "B",
+      evidenceText: "应激—内皮—血小板的机制链条有明确实验与临床证据；但「气滞血瘀」为复合证候，其诊断仍依赖临床四诊，缺少统一量化标准。",
+      refs: [
+        { type: "classic", text: "《素问·举痛论》" },
+        { type: "classic", text: "王清任《医林改错·血府逐瘀汤所治之症目》（1830）" },
+        { type: "modern", text: "中国中西医结合学会活血化瘀专业委员会. 血瘀证诊断标准. 中国中西医结合杂志, 1987, 7(3): 129；2016 年修订版." },
+        { type: "modern", text: "Strike PC, Steptoe A. Behavioral and emotional triggers of acute coronary syndromes: a systematic review and critique. Psychosomatic Medicine, 2004, 66(2): 179–186." },
+      ],
+    },
+
+    /* ---- 新增：气阴两虚 ---- */
+    {
+      id: "qi-yin-deficiency",
+      layer: "L3",
+      group: "气血证候",
+      name: "气阴两虚",
+      pinyin: "Qì Yīn Liǎng Xū",
+      alias: ["气阴两伤", "气阴亏虚"],
+      relatedIds: ["qi-deficiency","kidney-yin-deficiency","heart-yin-deficiency","lung-yin-deficiency"],
+      mechanismLevel: "medium",
+      summary: "乏力气短兼口干盗汗，见于热病后期与消渴。",
+      tcm:
+        "气阴两虚为气虚与阴虚并存。多见于热病后期、久病耗伤、消渴（糖尿病）及肿瘤放化疗之后。症见神疲乏力、气短懒言、口干咽燥、五心烦热、自汗盗汗、心悸失眠、舌红少苔或舌淡红少津、脉细弱或细数。",
+      modern:
+        "对应**线粒体能量代谢下降（气虚侧） + 交感偏亢与体液不足（阴虚侧）** 的复合表型：ATP 生成效率下降、肌力与运动耐量降低、静息心率与交感张力偏高、唾液流率与体液储备下降。常见于糖尿病、肿瘤治疗后癌因性疲乏、慢性心力衰竭。",
+      mappings: [
+        { tcm: "乏力气短", modern: "线粒体 ATP 生成下降、骨骼肌力量与耐力减退", note: "握力、6 分钟步行、乳酸阈值" },
+        { tcm: "口干盗汗", modern: "唾液流率下降、自主神经汗腺调节失调", note: "唾液流率、出汗监测" },
+        { tcm: "五心烦热", modern: "末梢皮温升高与代谢率相对偏高", note: "红外热成像" },
+        { tcm: "见于肿瘤放化疗后", modern: "癌因性疲乏、治疗相关氧化应激与线粒体损伤", note: "癌因性疲乏量表" },
+        { tcm: "见于消渴", modern: "糖尿病周围神经病变、代谢记忆与慢性低度炎症", note: "HbA1c、神经传导" },
+      ],
+      evidence: "B",
+      evidenceText: "能量代谢与自主神经指标方向一致，且在糖尿病与肿瘤支持治疗领域有较集中的证候研究；但「气阴两虚」缺乏独立的诊断金标准。",
+      refs: [
+        { type: "classic", text: "李杲《内外伤辨惑论》（1231）" },
+        { type: "classic", text: "叶天士《临证指南医案》" },
+        { type: "modern", text: "Bower JE. Cancer-related fatigue: mechanisms, risk factors, and treatments. Nature Reviews Clinical Oncology, 2014, 11(10): 597–609." },
+        { type: "modern", text: "中国中西医结合学会. 中医虚证辨证参考标准. 中西医结合杂志, 1986, 6(10): 598." },
+      ],
+    },
+
+    /* ---- 新增：风寒束表 ---- */
+    {
+      id: "wind-cold",
+      layer: "L3",
+      group: "外感证候",
+      name: "风寒束表",
+      pinyin: "Fēng Hán Shù Biǎo",
+      alias: ["风寒表证", "太阳伤寒"],
+      relatedIds: ["taiyang","lung","weiqi-yingxue","wind-heat"],
+      mechanismLevel: "medium",
+      summary: "恶寒重发热轻、无汗头身痛、鼻塞清涕、脉浮紧。",
+      tcm:
+        "风寒束表为风寒之邪侵袭肌表、卫阳被遏。症见恶寒重、发热轻、无汗、头身疼痛、鼻塞流清涕、咳嗽痰白清稀、舌淡红苔薄白、脉浮紧。治以辛温解表（麻黄汤、荆防败毒散）。",
+      modern:
+        "对应上呼吸道病毒感染的**寒战期（chill phase）**：致热原使下丘脑体温调定点上移，机体通过外周血管收缩与寒战产热，出现恶寒、无汗、面色苍白；鼻黏膜以浆液性分泌为主，故鼻涕清稀。此期与 L4 太阳病、卫分证的前段相衔接。",
+      mappings: [
+        { tcm: "恶寒重、发热轻", modern: "调定点上移早期，产热尚未完成，外周血管收缩", note: "寒战产热期" },
+        { tcm: "无汗", modern: "交感兴奋致汗腺分泌抑制、皮肤血管收缩", note: "皮肤血流与出汗率下降" },
+        { tcm: "头身疼痛", modern: "前列腺素 E2 致痛觉敏化与肌肉酸痛", note: "NSAIDs 可缓解" },
+        { tcm: "鼻塞流清涕", modern: "鼻黏膜血管扩张、浆液性分泌增加（病毒感染早期）", note: "鼻涕性状由清稀转黏稠提示病程进展" },
+        { tcm: "脉浮紧", modern: "心输出量增加伴外周阻力升高", note: "脉压与脉搏波" },
+      ],
+      evidence: "B",
+      evidenceText: "与感染性发热寒战期的病理生理高度吻合；「风寒」证候与特定病原无对应关系，属表型分期而非病因诊断。",
+      refs: [
+        { type: "classic", text: "《伤寒论·辨太阳病脉证并治》麻黄汤证" },
+        { type: "classic", text: "《素问·骨空论》「风从外入，令人振寒汗出」" },
+        { type: "modern", text: "Mackowiak PA. Concepts of fever. Archives of Internal Medicine, 1998, 158(17): 1870–1881." },
+        { type: "modern", text: "Eccles R. Understanding the symptoms of the common cold. Lancet Infectious Diseases, 2005, 5(11): 718–725." },
+      ],
+    },
+
+    /* ---- 新增：风热犯肺 ---- */
+    {
+      id: "wind-heat",
+      layer: "L3",
+      group: "外感证候",
+      name: "风热犯肺",
+      pinyin: "Fēng Rè Fàn Fèi",
+      alias: ["风热表证", "温邪犯肺"],
+      relatedIds: ["weifen","lung","taiyang","weiqi-yingxue","wind-cold"],
+      mechanismLevel: "medium",
+      summary: "发热重恶寒轻、咽痛口渴、痰黄稠、脉浮数。",
+      tcm:
+        "风热犯肺为风热之邪侵袭肺卫。症见发热重、微恶风寒、咽喉红肿疼痛、口渴、咳嗽痰黄稠、鼻流浊涕、舌尖红苔薄黄、脉浮数。治以辛凉解表（银翘散、桑菊饮）。",
+      modern:
+        "对应上呼吸道病毒感染的**咽痛发热期**：局部炎症介质（缓激肽、PGE2、IL-6）释放致咽痛与血管扩张，全身炎症反应启动，分泌物由浆液性转为黏液脓性。此期与 L4 卫分证的后段、气分证前段相衔接。",
+      mappings: [
+        { tcm: "发热重、恶寒轻", modern: "调定点已稳定上移，产热与散热在高位达成平衡", note: "体温平台期" },
+        { tcm: "咽喉红肿疼痛", modern: "局部缓激肽/PGE2 致痛觉敏化与血管扩张", note: "咽部充血、吞咽痛" },
+        { tcm: "痰黄稠", modern: "黏液分泌增加伴中性粒细胞浸润，髓过氧化物酶使分泌物呈黄绿色", note: "痰液性状与细胞学" },
+        { tcm: "鼻流浊涕", modern: "分泌物由浆液性转为黏液脓性", note: "病程进展标志" },
+        { tcm: "舌尖红、脉浮数", modern: "舌前部血流增加、心率增快伴外周血管扩张", note: "舌象图像分析、心率" },
+      ],
+      evidence: "B",
+      evidenceText: "与上呼吸道感染发热期的病理生理吻合；「风热」与「风寒」的区分在临床上常随病程动态转化，非固定病因分类。",
+      refs: [
+        { type: "classic", text: "叶天士《温热论》「温邪上受，首先犯肺」" },
+        { type: "classic", text: "吴鞠通《温病条辨》银翘散证" },
+        { type: "modern", text: "Heikkinen T, Järvinen A. The common cold. Lancet, 2003, 361(9351): 51–59." },
+        { type: "modern", text: "Eccles R. Understanding the symptoms of the common cold. Lancet Infectious Diseases, 2005, 5(11): 718–725." },
       ],
     },
 
@@ -1275,6 +1540,8 @@ window.TCM_DATA = {
       name: "八纲辨证",
       pinyin: "Bā Gāng Biàn Zhèng",
       alias: ["阴阳表里寒热虚实"],
+      relatedIds: ["bagang-yinyang","bagang-biaoli","bagang-hanre","bagang-xushi","liujing","weiqi-yingxue"],
+      mechanismLevel: "medium",
       summary: "以四对范畴定位病位的八维分类框架。",
       tcm:
         "八纲辨证以阴阳、表里、寒热、虚实四对纲领概括证候。阴阳为总纲，表里辨病位深浅，寒热辨病性，虚实辨正邪盛衰。清代程钟龄《医学心悟》系统提出「寒热虚实表里阴阳辨」。",
@@ -1291,7 +1558,7 @@ window.TCM_DATA = {
       refs: [
         { type: "classic", text: "程钟龄《医学心悟·寒热虚实表里阴阳辨》（1732）" },
         { type: "classic", text: "《素问·阴阳应象大论》" },
-        { type: "modern", text: "Loscalzo J, et al. Precision medicine. Nature, 2017, 541: 483–484." },
+        { type: "modern", text: "Loscalzo J, Kohane I, Barabási AL. Human disease classification in the postgenomic era: a complex systems approach to human pathobiology. Molecular Systems Biology, 2007, 3: 124." },
       ],
     },
     {
@@ -1301,6 +1568,8 @@ window.TCM_DATA = {
       name: "阴阳辨证",
       pinyin: "Yīn Yáng Biàn Zhèng",
       alias: ["阴证", "阳证"],
+      relatedIds: ["yinyang","bagang","shaoyin","jueyin"],
+      mechanismLevel: "medium",
       summary: "八纲总纲：阳证主亢奋，阴证主衰退。",
       tcm:
         "阴阳为八纲总纲。阳证见发热、面赤、烦躁、口渴、便秘、脉洪数；阴证见畏寒、肢冷、精神萎靡、便溏、脉沉迟。表、热、实属阳；里、寒、虚属阴。",
@@ -1314,7 +1583,7 @@ window.TCM_DATA = {
       evidenceText: "总体偏移方向可测；阴阳证候覆盖面广，异质性大。",
       refs: [
         { type: "classic", text: "《素问·阴阳应象大论》《医学心悟》" },
-        { type: "modern", text: "Thayer JF, et al. The relationship of autonomic imbalance to cardiovascular disease risk. International Journal of Cardiology, 2010." },
+        { type: "modern", text: "Thayer JF, et al. The relationship of autonomic imbalance to cardiovascular disease risk. International Journal of Cardiology, 2010, 141(2): 122–131." },
       ],
     },
     {
@@ -1324,6 +1593,8 @@ window.TCM_DATA = {
       name: "表里辨证",
       pinyin: "Biǎo Lǐ Biàn Zhèng",
       alias: ["表证", "里证", "半表半里"],
+      relatedIds: ["bagang","taiyang","weiqi-yingxue","bagang-hanre"],
+      mechanismLevel: "medium",
       summary: "病位深浅的分层：肌表还是脏腑。",
       tcm:
         "表里辨病位。表证病位浅在肌表，起病急、病程短，见恶寒发热、头身痛、脉浮；里证病位深在脏腑，病程长，见脏腑功能异常；半表半里见寒热往来、胸胁苦满。",
@@ -1348,6 +1619,8 @@ window.TCM_DATA = {
       name: "寒热辨证",
       pinyin: "Hán Rè Biàn Zhèng",
       alias: ["寒证", "热证"],
+      relatedIds: ["bagang","shanghuo","wind-cold","wind-heat"],
+      mechanismLevel: "medium",
       summary: "病性：产热—代谢轴的低与高。",
       tcm:
         "寒热辨病性。寒证见畏寒喜暖、肢冷、分泌物清稀、舌淡苔白、脉迟；热证见发热喜凉、口渴、分泌物黄稠、舌红苔黄、脉数。",
@@ -1372,6 +1645,8 @@ window.TCM_DATA = {
       name: "虚实辨证",
       pinyin: "Xū Shí Biàn Zhèng",
       alias: ["虚证", "实证"],
+      relatedIds: ["bagang","qi-deficiency","blood-deficiency","phlegm-damp"],
+      mechanismLevel: "medium",
       summary: "正邪力量对比：储备不足还是负荷过盛。",
       tcm:
         "虚实辨正邪盛衰。「邪气盛则实，精气夺则虚」。虚证见神疲、气短、自汗、脉虚无力；实证见胀满、疼痛拒按、痰涎壅盛、脉实有力。",
@@ -1396,6 +1671,8 @@ window.TCM_DATA = {
       name: "六经辨证",
       pinyin: "Liù Jīng Biàn Zhèng",
       alias: ["伤寒六经", "三阳三阴"],
+      relatedIds: ["bagang","taiyang","yangming","shaoyang","taiyin","shaoyin","jueyin"],
+      mechanismLevel: "medium",
       summary: "外感病由表入里、由阳转阴的六阶段模型。",
       tcm:
         "六经辨证出自张仲景《伤寒论》，以太阳、阳明、少阳、太阴、少阴、厥阴概括外感病传变阶段。三阳病以邪实为主，三阴病以正虚为主。六经既是病程分期，也是证候分类。",
@@ -1421,6 +1698,8 @@ window.TCM_DATA = {
       name: "太阳病",
       pinyin: "Tài Yáng Bìng",
       alias: ["表证", "太阳伤寒", "太阳中风"],
+      relatedIds: ["liujing","wind-cold","weifen","lung"],
+      mechanismLevel: "medium",
       summary: "外邪初袭肌表，营卫不和。",
       tcm:
         "太阳病为外感初期，邪在肌表。太阳伤寒见恶寒发热、无汗而喘、身疼、脉浮紧（麻黄汤证）；太阳中风见发热汗出、恶风、脉浮缓（桂枝汤证）。",
@@ -1446,6 +1725,8 @@ window.TCM_DATA = {
       name: "阳明病",
       pinyin: "Yáng Míng Bìng",
       alias: ["胃家实", "阳明经证", "阳明腑证"],
+      relatedIds: ["liujing","qifen","stomach-fire","damp-heat"],
+      mechanismLevel: "medium",
       summary: "邪入里化热，里热炽盛或腑实。",
       tcm:
         "阳明病为邪入胃肠、里热炽盛。阳明经证见大热、大汗、大渴、脉洪大（白虎汤证）；阳明腑证见潮热、腹满硬痛、便秘、谵语（承气汤证）。",
@@ -1471,6 +1752,8 @@ window.TCM_DATA = {
       name: "少阳病",
       pinyin: "Shào Yáng Bìng",
       alias: ["半表半里", "柴胡证"],
+      relatedIds: ["liujing","liver-qi-stagnation","bagang-biaoli"],
+      mechanismLevel: "medium",
       summary: "邪在半表半里，枢机不利。",
       tcm:
         "少阳病为邪居半表半里、枢机不利。症见寒热往来、胸胁苦满、默默不欲饮食、心烦喜呕、口苦咽干目眩、脉弦（小柴胡汤证）。",
@@ -1486,7 +1769,7 @@ window.TCM_DATA = {
       evidenceText: "与迁延性炎症及功能性疾病表型对应；「半表半里」无解剖对应。",
       refs: [
         { type: "classic", text: "《伤寒论·辨少阳病脉证并治》" },
-        { type: "modern", text: "Stasiak CE, et al. Subacute thyroiditis: a review. Endocrine Practice, 2021." },
+        { type: "modern", text: "Ross DS, et al. 2016 American Thyroid Association Guidelines for Diagnosis and Management of Hyperthyroidism and Other Causes of Thyrotoxicosis. Thyroid, 2016, 26(10): 1343–1421." },
       ],
     },
     {
@@ -1496,6 +1779,8 @@ window.TCM_DATA = {
       name: "太阴病",
       pinyin: "Tài Yīn Bìng",
       alias: ["脾虚寒", "中阳不足"],
+      relatedIds: ["liujing","spleen-yang-deficiency","spleen-qi-deficiency"],
+      mechanismLevel: "medium",
       summary: "脾胃虚寒，运化失职。",
       tcm:
         "太阴病为脾阳虚弱、寒湿内盛。症见腹满而吐、食不下、自利益甚、时腹自痛、口不渴、舌淡苔白、脉缓弱（理中汤证）。",
@@ -1521,6 +1806,8 @@ window.TCM_DATA = {
       name: "少阴病",
       pinyin: "Shào Yīn Bìng",
       alias: ["心肾阳虚", "少阴寒化", "少阴热化"],
+      relatedIds: ["liujing","kidney-yang-deficiency","heart-yin-deficiency","jueyin"],
+      mechanismLevel: "medium",
       summary: "心肾虚衰，全身功能低下。",
       tcm:
         "少阴病为心肾虚衰。寒化证见无热恶寒、但欲寐、四肢厥逆、下利清谷、脉微细（四逆汤证）；热化证见心烦不得卧、咽干口燥、舌红少苔、脉细数（黄连阿胶汤证）。",
@@ -1547,6 +1834,8 @@ window.TCM_DATA = {
       name: "厥阴病",
       pinyin: "Jué Yīn Bìng",
       alias: ["阴阳错杂", "厥热胜复"],
+      relatedIds: ["liujing","shaoyin","blood-stasis","bagang-yinyang"],
+      mechanismLevel: "analogical",
       summary: "阴阳错杂、寒热并见，病程末期。",
       tcm:
         "厥阴病为六经传变之末，阴阳错杂、寒热并见。症见消渴、气上撞心、心中疼热、饥不欲食、食则吐蛔、厥热胜复、下利不止（乌梅丸证）。",
@@ -1572,6 +1861,8 @@ window.TCM_DATA = {
       name: "卫气营血辨证",
       pinyin: "Wèi Qì Yíng Xuè Biàn Zhèng",
       alias: ["温病四层", "叶天士辨证"],
+      relatedIds: ["bagang","weifen","qifen","yingfen","xuefen","liujing"],
+      mechanismLevel: "medium",
       summary: "温热病由浅入深的四个传变层次。",
       tcm:
         "卫气营血辨证由叶天士在《温热论》中创立，用于温病（外感热病）的传变分析。卫分→气分→营分→血分，标志病邪由表入里、由浅入深、由轻转重。治疗原则：在卫汗之可也，到气才可清气，入营犹可透热转气，入血就恐耗血动血，直须凉血散血。",
@@ -1600,6 +1891,8 @@ window.TCM_DATA = {
       name: "卫分证",
       pinyin: "Wèi Fēn Zhèng",
       alias: ["邪在卫表"],
+      relatedIds: ["weiqi-yingxue","wind-heat","taiyang","lung"],
+      mechanismLevel: "medium",
       summary: "温病初起，邪袭肺卫。",
       tcm:
         "卫分证为温病初起，邪在肺卫。症见发热、微恶风寒、头痛、少汗、咳嗽、口微渴、咽痛、舌边尖红、苔薄白、脉浮数（银翘散证）。",
@@ -1625,6 +1918,8 @@ window.TCM_DATA = {
       name: "气分证",
       pinyin: "Qì Fēn Zhèng",
       alias: ["热在气分", "阳明热盛"],
+      relatedIds: ["weiqi-yingxue","yangming","stomach-fire","shanghuo"],
+      mechanismLevel: "medium",
       summary: "邪入气分，正邪剧争，里热炽盛。",
       tcm:
         "气分证为温病邪已入里，正邪剧争。症见壮热、不恶寒反恶热、大汗、大渴喜冷饮、心烦、尿赤、舌红苔黄、脉洪大（白虎汤证）；或见腑实便秘（承气汤证）。",
@@ -1650,23 +1945,26 @@ window.TCM_DATA = {
       name: "营分证",
       pinyin: "Yíng Fēn Zhèng",
       alias: ["热入营分", "营热"],
+      relatedIds: ["weiqi-yingxue","xuefen","heart-yin-deficiency","yinyang"],
+      mechanismLevel: "medium",
       summary: "热灼营阴，扰及心神。",
       tcm:
         "营分证为热邪深入营分，灼伤营阴、扰乱心神。症见身热夜甚、心烦不寐、时有谵语、斑疹隐隐、口干但不甚渴饮、舌绛少苔、脉细数（清营汤证）。",
       modern:
         "对应**炎症累及中枢与微循环**：夜间高热、意识改变（谵妄）、睡眠—觉醒紊乱、微循环障碍、凝血激活前状态。乳酸可能轻度升高，D-二聚体上升，器官功能开始受累。",
       mappings: [
-        { tcm: "身热夜甚", modern: "夜间皮质醇低谷与炎症因子节律致体温升高", note: "体温昼夜节律" },
+        { tcm: "身热夜甚", modern: "夜间皮质醇低谷与炎症因子节律致体温升高；核心生物钟（CLOCK/BMAL1）对体温调定点与免疫细胞迁移的昼夜门控", note: "体温昼夜节律；circadian gating" },
         { tcm: "谵语心烦", modern: "脓毒症相关性脑病早期、谵妄", note: "CAM-ICU" },
         { tcm: "斑疹隐隐", modern: "微血管渗漏与皮下出血点", note: "皮肤检查、D-二聚体" },
         { tcm: "舌绛", modern: "舌微循环淤滞、舌乳头萎缩", note: "舌象" },
         { tcm: "口干不欲饮", modern: "容量尚可但分布异常（第三间隙）", note: "容量评估" },
       ],
       evidence: "B",
-      evidenceText: "与脓毒症脑病及微循环障碍对应较好；「营分」边界依赖临床判断。",
+      evidenceText: "与脓毒症脑病及微循环障碍对应较好；生物钟对体温与免疫的昼夜门控为「身热夜甚」提供了机制解释；「营分」边界依赖临床判断。",
       refs: [
         { type: "classic", text: "叶天士《温热论》、吴鞠通《温病条辨·清营汤》" },
         { type: "modern", text: "Sonneville R, et al. Understanding brain dysfunction in sepsis. Annals of Intensive Care, 2013, 3: 15." },
+        { type: "modern", text: "Takahashi JS. Transcriptional architecture of the mammalian circadian clock. Nature Reviews Genetics, 2017, 18(3): 164–179." },
       ],
     },
     {
@@ -1676,6 +1974,8 @@ window.TCM_DATA = {
       name: "血分证",
       pinyin: "Xuè Fēn Zhèng",
       alias: ["热入血分", "耗血动血"],
+      relatedIds: ["weiqi-yingxue","yingfen","blood-stasis","xue"],
+      mechanismLevel: "high",
       summary: "热盛动血，耗血伤阴，病位最深。",
       tcm:
         "血分证为温病最深阶段，热盛动血、耗血伤阴。症见斑疹显露、色紫黑、吐血、衄血、便血、尿血、抽搐、角弓反张、舌深绛、脉细数（犀角地黄汤证）。",
@@ -1696,6 +1996,39 @@ window.TCM_DATA = {
       ],
     },
 
+    /* ---- 新增：三焦辨证 ---- */
+    {
+      id: "sanjiao-bianzheng",
+      layer: "L4",
+      group: "三焦辨证",
+      name: "三焦辨证",
+      pinyin: "Sān Jiāo Biàn Zhèng",
+      alias: ["上焦证", "中焦证", "下焦证", "吴鞠通三焦"],
+      relatedIds: ["sanjiao","weiqi-yingxue","bagang","liujing","jinye"],
+      mechanismLevel: "medium",
+      summary: "温病上中下三焦的分层传变与器官分期模型。",
+      tcm:
+        "三焦辨证由吴鞠通《温病条辨》创立，与卫气营血辨证互补。上焦病在肺与心包，见发热恶寒、咳嗽、神昏谵语；中焦病在脾胃，见壮热、腹满便秘或便溏；下焦病在肝肾，见低热、手足蠕动、瘛疭、耳聋、舌干齿黑。传变有「顺传」（上焦→中焦→下焦）与「逆传」（上焦直入心包）两途。",
+      modern:
+        "与**疾病分期模型**同构，且天然对应器官系统的纵向分层：上焦≈呼吸与循环（肺部感染、ARDS 早期、心包/心肌受累）；中焦≈消化与代谢（肠功能衰竭、肝损伤、代谢紊乱）；下焦≈神经内分泌与水电解质（急性肾损伤、尿毒症脑病、电解质耗竭）。「逆传心包」与感染性休克、脓毒症脑病的快速恶化高度对应。",
+      mappings: [
+        { tcm: "上焦（肺、心包）", modern: "呼吸与循环系统：肺炎、ARDS 早期、心包/心肌炎", note: "PaO₂/FiO₂、影像学" },
+        { tcm: "中焦（脾、胃）", modern: "消化与代谢：麻痹性肠梗阻、肝功能损伤、代谢紊乱", note: "肠鸣音、肝酶、乳酸" },
+        { tcm: "下焦（肝、肾）", modern: "神经内分泌与水电解质：急性肾损伤、尿毒症脑病、电解质耗竭", note: "肌酐、eGFR、电解质、意识评分" },
+        { tcm: "顺传（上→中→下）", modern: "疾病的连续恶化与多器官序贯受累", note: "SOFA 评分逐级上升" },
+        { tcm: "逆传心包", modern: "病情急剧恶化：脓毒症休克、脓毒症相关性脑病", note: "需早期识别与干预" },
+        { tcm: "下焦阴虚风动", modern: "尿毒症/肝性脑病相关的代谢性脑病与肌阵挛", note: "扑翼样震颤、肌阵挛" },
+      ],
+      evidence: "B",
+      evidenceText: "与疾病分期及器官纵向分层高度同构，在温病与危重症对照研究中有较多应用；但三焦界线依赖临床判断，缺乏统一生物学阈值。",
+      refs: [
+        { type: "classic", text: "吴鞠通《温病条辨》（1798）" },
+        { type: "classic", text: "叶天士《温热论》（1746）" },
+        { type: "modern", text: "Singer M, et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). JAMA, 2016, 315(8): 801–810." },
+        { type: "modern", text: "Vincent JL, et al. The SOFA (Sepsis-related Organ Failure Assessment) score to describe organ dysfunction/failure. Intensive Care Medicine, 1996, 22(7): 707–710." },
+      ],
+    },
+
     /* ===================== L5 ===================== */
     {
       id: "jingluo",
@@ -1704,6 +2037,8 @@ window.TCM_DATA = {
       name: "经络",
       pinyin: "Jīng Luò",
       alias: ["经脉", "络脉", "经络系统"],
+      relatedIds: ["shier-jing","shuxue","deqi","zhenjiu"],
+      mechanismLevel: "analogical",
       summary: "运行气血、联络脏腑、沟通内外的通道网络。",
       tcm:
         "经络是运行气血、联络脏腑肢节、沟通上下内外的通路系统。经为主干（十二正经、奇经八脉），络为分支（十五络脉、孙络）。《灵枢·海论》：『夫十二经脉者，内属于腑脏，外络于肢节。』",
@@ -1730,6 +2065,8 @@ window.TCM_DATA = {
       name: "十二正经",
       pinyin: "Shí Èr Zhèng Jīng",
       alias: ["十二经脉", "手足三阴三阳经"],
+      relatedIds: ["jingluo","shuxue","deqi"],
+      mechanismLevel: "analogical",
       summary: "手足三阴三阳十二条主干经脉。",
       tcm:
         "十二正经包括手三阴（肺、心包、心）、手三阳（大肠、三焦、小肠）、足三阳（胃、胆、膀胱）、足三阴（脾、肝、肾）。它们首尾相贯、如环无端，与脏腑一一属络，是气血运行的主干。",
@@ -1756,6 +2093,8 @@ window.TCM_DATA = {
       name: "腧穴",
       pinyin: "Shù Xué",
       alias: ["穴位", "经穴", "孔穴"],
+      relatedIds: ["jingluo","shier-jing","deqi","zhenjiu"],
+      mechanismLevel: "medium",
       summary: "经络气血输注于体表的特定部位。",
       tcm:
         "腧穴是人体脏腑经络之气输注于体表的特殊部位，分经穴（361 个）、奇穴、阿是穴。腧穴有近治、远治与特殊作用，是针灸、推拿的施术部位。",
@@ -1765,14 +2104,17 @@ window.TCM_DATA = {
         { tcm: "腧穴为气血输注处", modern: "神经血管束穿出筋膜点的高密度区", note: "解剖学与超声研究" },
         { tcm: "腧穴—肥大细胞", modern: "穴位处肥大细胞密度较高，针刺致脱颗粒", note: "组织学研究" },
         { tcm: "针刺镇痛", modern: "局部腺苷 A1 受体激活（小鼠模型）", note: "Nature Neuroscience 2010" },
-        { tcm: "经穴定位", modern: "WHO 标准经穴定位（2008）", note: "国际标准化" },
+        { tcm: "经穴定位", modern: "WHO 标准经穴定位（2008）：361 个经穴中 354 个达成国际统一标准，其余 7 个保留不同定位方案", note: "国际标准化；少数穴位仍存分歧" },
+        { tcm: "穴位特异性（ST36 足三里）", modern: "PROKR2Cre 感觉神经元介导的迷走—肾上腺抗炎轴；低强度电针可激活，腹部天枢（ST25）区域无此神经元分布", note: "Nature 2021 分子解剖学实证" },
       ],
       evidence: "B",
-      evidenceText: "穴位局部组织学差异与腺苷机制有实验支持；特异性仍存学术争议。",
+      evidenceText: "穴位局部组织学差异、腺苷机制与 ST36 神经解剖学基础均有实验支持；但穴位特异性在整体临床层面仍存学术争议。",
       refs: [
         { type: "classic", text: "《灵枢·九针十二原》《针灸甲乙经》" },
         { type: "modern", text: "WHO. Standard Acupuncture Point Locations in the Western Pacific Region. 2008." },
         { type: "modern", text: "Goldman N, et al. Adenosine A1 receptors mediate local anti-nociceptive effects of acupuncture. Nature Neuroscience, 2010, 13(7): 883–888." },
+        { type: "modern", text: "Liu S, et al. A neuroanatomical basis for electroacupuncture to drive the vagal–adrenal axis. Nature, 2021, 598(7882): 641–645." },
+        { type: "modern", text: "Yang JW, et al. Effect of Acupuncture for Postprandial Distress Syndrome: A Randomized Clinical Trial. Annals of Internal Medicine, 2020, 172(12): 777–785." },
       ],
     },
     {
@@ -1782,6 +2124,8 @@ window.TCM_DATA = {
       name: "得气",
       pinyin: "Dé Qì",
       alias: ["针感", "气至"],
+      relatedIds: ["shuxue","zhenjiu","jingluo"],
+      mechanismLevel: "medium",
       summary: "针刺后患者酸麻重胀、医者沉紧的感应。",
       tcm:
         "得气指针刺入穴位后，患者出现酸、麻、胀、重等感觉，医者针下感到沉紧。《标幽赋》：『气速至而速效，气迟至而不治。』得气被视为疗效的关键前提。",
@@ -1797,7 +2141,7 @@ window.TCM_DATA = {
       refs: [
         { type: "classic", text: "窦汉卿《标幽赋》（金元）" },
         { type: "modern", text: "Langevin HM, et al. Mechanical signaling through connective tissue: a mechanism for the therapeutic effect of acupuncture. FASEB Journal, 2001, 15(12): 2275–2282." },
-        { type: "modern", text: "Hui KK, et al. Acupuncture modulates the limbic system and subcortical gray structures. Human Brain Mapping, 2000." },
+        { type: "modern", text: "Hui KK, et al. Acupuncture modulates the limbic system and subcortical gray structures of the human brain: evidence from fMRI studies in normal subjects. Human Brain Mapping, 2000, 9(1): 13–25." },
       ],
     },
     {
@@ -1807,6 +2151,8 @@ window.TCM_DATA = {
       name: "针灸",
       pinyin: "Zhēn Jiǔ",
       alias: ["针刺", "艾灸", "acupuncture"],
+      relatedIds: ["deqi","shuxue","jingluo","shier-jing"],
+      mechanismLevel: "high",
       summary: "以针刺或艾灸刺激腧穴的治疗方法。",
       tcm:
         "针灸包括针刺与艾灸，通过刺激腧穴、疏通经络、调和气血以治疗疾病。《灵枢·九针十二原》：『余欲勿使被毒药，无用砭石，欲以微针通其经脉，调其血气。』",
@@ -1816,14 +2162,17 @@ window.TCM_DATA = {
         { tcm: "针刺镇痛", modern: "腺苷 A1 受体激活 + 内源性阿片肽释放", note: "动物模型与人体试验" },
         { tcm: "艾灸温通", modern: "局部热疗致血管扩张、热休克蛋白表达", note: "温热效应" },
         { tcm: "针灸抗炎", modern: "迷走神经—肾上腺轴（胆碱能抗炎通路）", note: "电针研究" },
-        { tcm: "临床适应症", modern: "慢性疼痛、化疗恶心呕吐、紧张性头痛", note: "Vickers 2018 IPD meta 分析" },
+        { tcm: "临床适应症", modern: "慢性疼痛、化疗恶心呕吐、紧张性头痛、功能性消化不良（餐后不适综合征）", note: "Vickers 2018 IPD meta 分析；Yang 2020 RCT" },
+        { tcm: "穴位特异性（ST36 足三里）", modern: "PROKR2Cre 感觉神经元介导的迷走—肾上腺抗炎轴；低强度电针激活，腹部天枢（ST25）区域无此神经元分布", note: "Nature 2021 分子解剖学实证：穴位的效应具有神经解剖学基础" },
       ],
       evidence: "A",
-      evidenceText: "多项系统评价支持针灸对特定适应症有效；机制研究明确但特异性仍存争议。",
+      evidenceText: "多项系统评价与个体患者数据 meta 分析支持针灸对特定适应症有效；ST36 的迷走—肾上腺通路提供了穴位特异性的分子解剖学证据。",
       refs: [
         { type: "classic", text: "《灵枢·九针十二原》《针灸大成》" },
         { type: "modern", text: "Vickers AJ, et al. Acupuncture for chronic pain: update of an individual patient data meta-analysis. Journal of Pain, 2018, 19(5): 455–474." },
-        { type: "modern", text: "Goldman N, et al. Nature Neuroscience, 2010, 13(7): 883–888." },
+        { type: "modern", text: "Goldman N, et al. Adenosine A1 receptors mediate local anti-nociceptive effects of acupuncture. Nature Neuroscience, 2010, 13(7): 883–888." },
+        { type: "modern", text: "Liu S, et al. A neuroanatomical basis for electroacupuncture to drive the vagal–adrenal axis. Nature, 2021, 598(7882): 641–645." },
+        { type: "modern", text: "Yang JW, et al. Effect of Acupuncture for Postprandial Distress Syndrome: A Randomized Clinical Trial. Annals of Internal Medicine, 2020, 172(12): 777–785." },
       ],
     },
     {
@@ -1833,6 +2182,8 @@ window.TCM_DATA = {
       name: "脉诊",
       pinyin: "Mài Zhěn",
       alias: ["切脉", "寸口诊法", "脉象"],
+      relatedIds: ["shezhen","bagang","heart"],
+      mechanismLevel: "medium",
       summary: "按寸口脉象判断气血盛衰与病位病性。",
       tcm:
         "脉诊为四诊之一，切按寸口桡动脉，以浮沉、迟数、虚实、滑涩等辨别脉象。王叔和《脉经》确立二十四脉，李时珍《濒湖脉学》归纳二十七脉。脉象反映气血盛衰、脏腑功能与病邪性质。",
@@ -1860,6 +2211,8 @@ window.TCM_DATA = {
       name: "舌诊",
       pinyin: "Shé Zhěn",
       alias: ["望舌", "舌象"],
+      relatedIds: ["maizhen","bagang","stomach","spleen"],
+      mechanismLevel: "medium",
       summary: "观察舌质与舌苔判断脏腑气血与病邪性质。",
       tcm:
         "舌诊为望诊重要内容。舌质反映脏腑气血盛衰（淡白为虚、红绛为热、紫暗为瘀），舌苔反映病邪性质与胃气（薄白正常、黄腻为湿热、剥苔为阴虚）。舌为心之苗，舌面分属脏腑。",
@@ -1871,13 +2224,14 @@ window.TCM_DATA = {
         { tcm: "舌紫暗", modern: "微循环淤滞、血氧饱和度下降", note: "舌微循环检测" },
         { tcm: "苔黄腻", modern: "口腔菌群改变、炎症与消化功能紊乱", note: "舌苔微生物组" },
         { tcm: "剥苔/少苔", modern: "舌乳头萎缩、唾液分泌减少、营养缺乏", note: "B 族维生素、铁" },
+        { tcm: "舌苔厚腻 / 剥脱与胃部病变", modern: "舌苔微生物组丰度变化与慢性胃炎及胃黏膜癌前病变高度相关", note: "Cui 2019, Protein & Cell；舌苔菌群可作为胃黏膜病变的无创提示" },
       ],
       evidence: "B",
-      evidenceText: "舌色与贫血/炎症的关联有研究支持；舌苔与菌群的研究正在兴起。",
+      evidenceText: "舌色与贫血/炎症的关联有研究支持；舌苔微生物组与胃炎及癌前病变的关联已有队列研究证据，但尚不足以作为独立诊断依据。",
       refs: [
         { type: "classic", text: "《敖氏伤寒金镜录》（1341，现存最早舌诊专著）" },
         { type: "classic", text: "叶天士《温热论》（舌诊论述）" },
-        { type: "modern", text: "Ye J, et al. Tongue coating microbiome as a potential biomarker. Journal of Oral Microbiology, 2020." },
+        { type: "modern", text: "Cui J, et al. Tongue coating microbiome as a potential biomarker for gastritis including precancerous cascade. Protein & Cell, 2019, 10(7): 496–509." },
       ],
     },
   ],
