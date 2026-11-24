@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岐黄映射 · 中医概念与现代医学对应关系图谱</title>
+<meta name="description" content="以多级分层架构整理中医概念、理论与病证，并给出对应现代医学概念、机制解释与真实文献依据。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 顶栏 ============ -->
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="打开目录">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="brand" href="#top">
+    <span class="seal-mini">岐</span>
+    <span class="brand-text">
+      <strong>岐黄映射</strong>
+      <em>QIHUANG ATLAS</em>
+    </span>
+  </a>
+  <div class="topbar-search">
+    <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <input id="search" type="search" placeholder="检索概念、证候或现代对应…" autocomplete="off" aria-label="检索">
+    <kbd>/</kbd>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 侧栏 ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+      <p class="sidebar-label">目录 / CONTENTS</p>
+      <nav id="nav" class="nav"></nav>
+      <div class="sidebar-foot">
+        <p>证据分级</p>
+        <ul class="legend">
+          <li><i class="dot a"></i><span><b>A</b> 临床/机制强证据</span></li>
+          <li><i class="dot b"></i><span><b>B</b> 中等证据</span></li>
+          <li><i class="dot c"></i><span><b>C</b> 理论类比</span></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ 主体 ============ -->
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="hero-watermark" aria-hidden="true">醫</div>
+      <div class="hero-inner">
+        <div class="hero-kicker">
+          <span class="rule"></span>
+          <span>TCM × MODERN MEDICINE</span>
+          <span class="rule"></span>
+        </div>
+        <h1 class="hero-title">
+          <span>岐</span><span>黄</span><span>映</span><span>射</span>
+        </h1>
+        <p class="hero-sub">中医概念、理论与病证 · 现代医学对应关系图谱</p>
+        <p class="hero-desc">
+          以 <em>L0—L5 六级分层架构</em> 组织中医知识体系，为每一个概念寻找现代医学中的功能对应、
+          可测量指标与文献依据。所有对应关系均标注证据等级，并区分<strong>解剖实体对应</strong>、
+          <strong>生理机制对应</strong>与<strong>结构类比</strong>三类性质。
+        </p>
+        <div class="hero-stats" id="heroStats"></div>
+        <div class="hero-seal" aria-hidden="true">
+          <span>求</span><span>真</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 分层架构 -->
+    <section class="section" id="layers">
+      <div class="section-head">
+        <div>
+          <p class="section-no">01 / ARCHITECTURE</p>
+          <h2>多级分层架构</h2>
+        </div>
+        <p class="section-note">
+          自上而下，抽象度递减、可测量性递增。上层为下层提供解释框架，下层为上层提供经验锚点。
+        </p>
+      </div>
+      <div class="layer-stack" id="layerStack"></div>
+      <div class="arch-flow">
+        <div class="arch-step"><b>哲学层</b><span>关系公理</span></div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step"><b>物质层</b><span>精气血津液</span></div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step"><b>系统层</b><span>脏腑功能</span></div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step"><b>证候层</b><span>可测异常</span></div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step"><b>辨证层</b><span>分类算法</span></div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step"><b>技术层</b><span>干预手段</span></div>
+      </div>
+    </section>
+
+    <!-- 映射图谱 -->
+    <section class="section" id="atlas">
+      <div class="section-head">
+        <div>
+          <p class="section-no">02 / ATLAS</p>
+          <h2>概念映射图谱</h2>
+        </div>
+        <p class="section-note">点击任一条目展开完整对应关系、映射机制与文献依据。</p>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="result-bar">
+        <span id="resultCount"></span>
+        <button class="clear-btn" id="clearBtn" hidden>清除筛选</button>
+      </div>
+      <div class="card-grid" id="cardGrid"></div>
+      <p class="empty" id="empty" hidden>未找到匹配条目，请尝试其他关键词。</p>
+    </section>
+
+    <!-- 五行生克 -->
+    <section class="section" id="wuxing">
+      <div class="section-head">
+        <div>
+          <p class="section-no">03 / FIVE PHASES</p>
+          <h2>五行 · 五脏生克</h2>
+        </div>
+        <p class="section-note">
+          相生为促进性耦合，相克为负反馈约束。将鼠标悬停于某一脏，可高亮其生克关系。
+        </p>
+      </div>
+      <div class="wuxing-wrap">
+        <div class="wuxing-canvas">
+          <svg id="wuxingSvg" viewBox="0 0 620 560" role="img" aria-label="五行五脏生克关系图"></svg>
+        </div>
+        <div class="wuxing-side">
+          <div class="wx-detail" id="wxDetail"></div>
+          <div class="wx-notes">
+            <div class="wx-note">
+              <b>相生 · 促进</b>
+              <p>木生火 → 火生土 → 土生金 → 金生水 → 水生木。现代对应为器官轴上的促进性信号传递，如肝合成血管紧张素原、肺内 ACE 生成血管紧张素 II 作用于肾。</p>
+            </div>
+            <div class="wx-note">
+              <b>相克 · 约束</b>
+              <p>木克土 → 土克水 → 水克火 → 火克金 → 金克木。现代对应为负反馈与拮抗机制，如心钠肽抑制 RAAS、胰岛素抑制胰高血糖素。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 辨证体系 -->
+    <section class="section" id="bianzheng">
+      <div class="section-head">
+        <div>
+          <p class="section-no">04 / DIAGNOSTIC SYSTEMS</p>
+          <h2>三大辨证体系</h2>
+        </div>
+        <p class="section-note">八纲辨病位病性，六经辨传变阶段，卫气营血辨温热病深浅。</p>
+      </div>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="bagang">八纲辨证</button>
+        <button class="tab" data-tab="liujing">六经辨证</button>
+        <button class="tab" data-tab="weiqi">卫气营血辨证</button>
+      </div>
+      <div class="tab-panels" id="tabPanels"></div>
+    </section>
+
+    <!-- 文献 -->
+    <section class="section" id="refs">
+      <div class="section-head">
+        <div>
+          <p class="section-no">05 / REFERENCES</p>
+          <h2>文献依据</h2>
+        </div>
+        <p class="section-note">
+          古典医籍给出概念源头，现代研究给出机制与临床证据。二者证据性质不同，不可混用。
+        </p>
+      </div>
+      <div class="ref-columns">
+        <div class="ref-block">
+          <h3><span>古典医籍</span><em>CLASSICAL TEXTS</em></h3>
+          <ul class="ref-list" id="refClassic"></ul>
+        </div>
+        <div class="ref-block">
+          <h3><span>现代研究</span><em>MODERN LITERATURE</em></h3>
+          <ul class="ref-list" id="refModern"></ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-mark">岐黄映射 <span>QIHUANG ATLAS</span></div>
+      <p class="disclaimer" id="disclaimer"></p>
+      <p class="footer-meta">数据集版本 <span id="version"></span> · 更新于 <span id="updated"></span></p>
+    </footer>
+
+  </main>
+</div>
+
+<!-- ============ 详情抽屉 ============ -->
+<div class="drawer-scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="drawer-head">
+    <button class="drawer-close" id="drawerClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <div class="drawer-meta" id="drawerMeta"></div>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

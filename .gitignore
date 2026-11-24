@@ -1,0 +1,15 @@
+# 工具生成的分享包
+.trae-html-share-packages/
+
+# 依赖与缓存
+node_modules/
+.cache/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 日志
+*.log
